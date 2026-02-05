@@ -11,3 +11,7 @@ Thumbs.db
 # IDEs
 .vscode/
 .idea/
+
+# Misc
+sources.txt
+./images/

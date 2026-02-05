@@ -15,7 +15,7 @@
         <li><a href="#about">About Me</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#contact">Contact</a></li>
-        <li><a class="buttons" id="darkmode-toggle"> <img class="round-button" src="darkmode.png" height=40 width=40 alt="Toggle Dark Mode" style="border-radius: 50%; cursor: pointer; transition: transform 0.2s ease;">
+        <li><a class="buttons" id="darkmode-toggle"> <img class="round-button" src="./images/darkmode.png" height=40 width=40 alt="Toggle Dark Mode" style="border-radius: 50%; cursor: pointer; transition: transform 0.2s ease;">
   </a></li>
     </ul>
         </nav>
@@ -24,8 +24,26 @@
      <section id="about" class="about">
         <h2>About Me</h2>
         <p>Hello! I'm Gabriel Rodrigues, a student in a professional course in programming, looking to further my academic and professional experience in web development.</p>
-     <!-- Interactive components go here -->
+        
+        <!-- Clock -->
+        <div class ="clock-container">
+            <div id="date" class="date"></div>
+            <div class="clock">
+            <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
+            <span id="ampm" style="margin-left: 0.5rem;"></span>
+        </div>
+            <button id="format-toggle" class="format-toggle">12h/24h</button>
+        </div>
     </section>
+
+    <!-- Visit Counter -->
+    <div class="visit-counter">
+        <p>You've visited this page <strong id="visit-count">0</strong> times</p>
+        <p class="last-visit">Last Visit: <span id="last-visit">First Time!</span></p>
+        <button id="reset-counter" class="reset-btn">🔄 Reset</button>
+    </div>
+
+
     
     <!-- Projects -->
     <section id="projects" class="projects">
@@ -51,10 +69,17 @@
 
     <!-- Footer -->
     <footer>
-        <p>© <span id="year"></span> Gabriel Rodrigues. Made with ❤️, ☕ and lack of 💤. </p>
-    </footer>
+    <p>© <span id="year"></span> Gabriel Rodrigues. Made with ❤️, ☕ and lack of 💤.</p>
+    <details style="font-size: 0.75rem; margin-top: 1rem; opacity: 0.6;">
+        <summary style="cursor: pointer;">Icon Credits</summary>
+        <p style="margin-top: 0.5rem;">
+            <a href="https://www.flaticon.com/free-icons/radiant">Sun icon by heisenberg_jr</a> • 
+            <a href="https://www.flaticon.com/free-icons/hobbies-and-free-time">Moon icon by ekays.dsgn</a>
+        </p>
+    </details>
+</footer>
 
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>

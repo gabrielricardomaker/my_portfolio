@@ -46,6 +46,13 @@ body.darkmode .project-card {
 
 }
 
+#darkmode-toggle img{
+    transition: opacity 1s ease;
+}
+#darkmode-toggle img.fade-out {
+    opacity: 0;
+}
+
 /* ===== HEADER & NAVIGATION ===== */
 header {
     background: var(--white);
@@ -111,6 +118,63 @@ section h2 {
     color: var(--primary);
 }
 
+/* ===== CLOCK ===== */
+.clock-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+.clock  {
+    font-size: 3em;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    background: var(--bg-secondary);
+    padding: 1.5rem 3rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    letter-spacing: 0.1em;
+}
+
+.date {
+    font-size: 2em;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    background: var(--bg-secondary);
+    padding: 1rem 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    letter-spacing: 0.1em;
+}
+
+.clock span {
+    display: inline-block;
+    min-width: 0.6em;
+    text-align: center;
+}
+
+body.darkmode .clock,
+body.darkmode .date {
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+.format-toggle {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 0.5rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.format-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+}
+
 /* ===== PROJECTS GRID ===== */
 .projects-grid {
     display: grid;
@@ -154,4 +218,55 @@ footer {
     .projects-grid {
         grid-template-columns: repeat(3, 1fr);
     }
+}
+
+/* ===== Visit Counter ===== */
+.visit-counter {
+    background: var(--bg-secondary);
+    padding: 2rem;
+    border-radius: 15px;
+    margin: 2rem 0;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.visit-counter p {
+    margin: 0.5rem 0;
+    font-size: 1.1em;
+}
+
+.visit-counter strong {
+    color: var(--accent);
+    font-size: 1.5em;
+}
+
+.last-visit {
+    color: var(--text-secondary);
+    font-size: 0.9em;
+}
+
+.reset-btn {
+    margin-top: 1rem;
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 0.5rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px #dc2626
+}
+
+.reset-btn:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
+}
+
+body.darkmode .visit-counter {
+    background: var(--darkmode-bg);
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+body.darkmode .reset-btn {
+    box-shadow: 0 4px 15px #dc2626
 }
