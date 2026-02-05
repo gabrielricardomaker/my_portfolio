@@ -1,6 +1,11 @@
-console.log('🚀 Portfolio carregado com sucesso!');
+console.log('Portfolio successfully loaded.');
 
-// Teste: mudar cor de fundo ao clicar
+const darkModeToggle = document.getElementById('darkmode-toggle');
+
+darkModeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('darkmode');
+});
+
 document.body.addEventListener('click', () => {
     console.log('Clicaste na página!');
 });

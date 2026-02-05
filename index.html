@@ -1,15 +1,60 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Portfolio</title>
+    <title>Gabriel Rodrigues - Portfolio</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Hello World! 🚀</h1>
-    <p>O meu portfolio está a nascer...</p>
+    <!-- Header -->
+     <header>
+        <nav>
+    <h1>Gabriel Rodrigues</h1>
+    <ul>
+        <li><a href="#about">About Me</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a class="buttons" id="darkmode-toggle"> <img class="round-button" src="darkmode.png" height=40 width=40 alt="Toggle Dark Mode" style="border-radius: 50%; cursor: pointer; transition: transform 0.2s ease;">
+  </a></li>
+    </ul>
+        </nav>
+    </header>
+    <!-- Intro -->
+     <section id="about" class="about">
+        <h2>About Me</h2>
+        <p>Hello! I'm Gabriel Rodrigues, a student in a professional course in programming, looking to further my academic and professional experience in web development.</p>
+     <!-- Interactive components go here -->
+    </section>
     
+    <!-- Projects -->
+    <section id="projects" class="projects">
+        <h2>Projects</h2>
+        <div class="projects-grid">
+            <article class="project-card">
+                <h2>Project 1: Portfolio Website</h2>
+                <p>A personal portfolio website to showcase my projects and skills.</p>
+                </article>
+            <article class="project-card">
+                <h2>Project 2: Minecraft Guess Who Fangame</h2>
+                <p>A Minecraft-themed guessing game where players try to identify a character based on questions and clues.</p>
+                <p>Link to repository: <a href="https://github.com/gabrielricardomaker/Minecraft-Whos-Who-Alpha">GitHub Repository</a></p>
+                <p style="font-size: 3px;">This was extremely botched and horribly written, you have been warned.</p>
+            </article>
+        </div>
+    </section>
+    <!-- Contact -->
+    <section id="contact" class="contact">
+            <h2>Contact Me</h2>
+            <p>You can reach me at:     <a href ="mailto:gabrielrodrigues_2023@proton.me">gabrielrodrigues_2023@proton.me</a></p>  
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© <span id="year"></span> Gabriel Rodrigues. Made with ❤️, ☕ and lack of 💤. </p>
+    </footer>
+
+
     <script src="script.js"></script>
 </body>
 </html>
