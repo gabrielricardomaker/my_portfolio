@@ -2,13 +2,14 @@ console.log('Portfolio successfully loaded.');
 
 //Dark Mode Toggle
 const darkModeToggle = document.getElementById('darkmode-toggle');
-const darkModeImg = darkModeToggle.querySelector('img');
+const darkmodeIcon = darkModeToggle.querySelector('.darkmode');
+const lightmodeIcon = darkModeToggle.querySelector('.lightmode');
 
 // Check if user had dark mode enabled
 if (localStorage.getItem('darkmode') === 'true') {
     document.body.classList.add('darkmode');
-    darkModeImg.src = './images/lightmode.png';
-    darkModeImg.alt = 'Toggle Light Mode';
+    darkmodeIcon.classList.add('fade-out');
+    lightmodeIcon.style.display = 'block';
 }
 
 darkModeToggle.addEventListener('click', () => {
@@ -17,21 +18,14 @@ darkModeToggle.addEventListener('click', () => {
     const isDark = document.body.classList.contains('darkmode');
     localStorage.setItem('darkmode', isDark);
     
-    // Fade out
-    darkModeImg.classList.add('fade-out');
-    
-    setTimeout(() => {
-        // Swap image
-        if (isDark) {
-            darkModeImg.src = './images/lightmode.png';
-            darkModeImg.alt = 'Toggle Light Mode';
-        } else {
-            darkModeImg.src = './images/darkmode.png';
-            darkModeImg.alt = 'Toggle Dark Mode';
-        }
-        // Fade in
-        darkModeImg.classList.remove('fade-out');
-    }, 500);
+    if (isDark) {
+        darkmodeIcon.classList.add('fade-out');
+        lightmodeIcon.style.display = 'block';
+        lightmodeIcon.classList.remove('fade-out');
+    } else {
+        lightmodeIcon.classList.add('fade-out');
+        darkmodeIcon.classList.remove('fade-out');
+    }
 });
 // End of Dark Mode Toggle
 
@@ -130,16 +124,11 @@ function getVisitCount() {
 
 // Increment visits
 function incrementVisitCount() {
-    // Get current count
     let count = getVisitCount();
-    
-    // Increment
     count++;
-    
-    // Save back to localStorage
     localStorage.setItem('visitCount', count);
     
-    // Save Timestamp of last visit
+    // Save current time as the new last visit
     const now = new Date().toISOString();
     localStorage.setItem('lastVisit', now);
     
@@ -159,38 +148,32 @@ function updateVisitDisplay() {
     console.log(`Visits: ${count}`);
 }
 
-// Format last visit Date
+// Format last visit time
 function formatLastVisit() {
-    const lastVisitISO = localStorage.getItem('lastVisit');
+    const lastVisit = localStorage.getItem('lastVisit');
     
-    if (!lastVisitISO) {
+    if (!lastVisit) {
         return 'First Time!';
     }
     
-    const lastVisit = new Date(lastVisitISO);
+    const lastVisitTime = new Date(lastVisit);
     const now = new Date();
+    const diffMs = now - lastVisitTime;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
     
-    // Calculate difference in milliseconds
-    const diff = now - lastVisit;
-    
-    // Convert to minutes/hours/days
-    const minutes = Math.floor(diff / 1000 / 60);
-    const hours = Math.floor(minutes / 60);
-    const days = Math.floor(hours / 24);
-    
-    if (minutes < 1) return 'Less than a minute ago';
-    if (minutes < 60) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
-    if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
-    return `${days} day${days > 1 ? 's' : ''} ago`;
+    if (diffMins < 1) return 'Less than a minute ago';
+    if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
+    if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+    return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
 }
 
 // Update last visit display
 function updateLastVisitDisplay() {
-    const lastVisitText = formatLastVisit();
-    
-    const lastVisitElement = document.getElementById('last-visit');
-    if (lastVisitElement) {
-        lastVisitElement.textContent = lastVisitText;
+    const lastVisitSpan = document.getElementById('last-visit');
+    if (lastVisitSpan) {
+        lastVisitSpan.textContent = formatLastVisit();
     }
 }
 
@@ -202,6 +185,9 @@ function initVisitCounter() {
     // Update displays
     updateVisitDisplay();
     updateLastVisitDisplay();
+    
+    // Update last visit live every minute
+    setInterval(updateLastVisitDisplay, 60000);
     
     console.log('Visit counter initialized.');
 }
@@ -237,3 +223,20 @@ const resetBtn = document.getElementById('reset-counter');
 if (resetBtn) {
     resetBtn.addEventListener('click', resetVisitCounter);
 }
+
+// Hamburger Menu
+const hamburger = document.getElementById('hamburger');
+const navMenu = document.getElementById('nav-menu');
+
+hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    navMenu.classList.toggle('active');
+});
+
+// Close menu when a link is clicked
+document.querySelectorAll('.nav-menu a').forEach(link  => {
+    link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+    });
+});

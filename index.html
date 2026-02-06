@@ -10,14 +10,23 @@
     <!-- Header -->
      <header>
         <nav>
-    <h1>Gabriel Rodrigues</h1>
-    <ul>
-        <li><a href="#about">About Me</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
-        <li><a class="buttons" id="darkmode-toggle"> <img class="round-button" src="./images/darkmode.png" height=40 width=40 alt="Toggle Dark Mode" style="border-radius: 50%; cursor: pointer; transition: transform 0.2s ease;">
-  </a></li>
-    </ul>
+            <h1>Gabriel Rodrigues</h1>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <a class="buttons" id="darkmode-toggle">
+                    <img class="darkmode" src="./images/darkmode.png" height="40" width="40" alt="Toggle Dark Mode" style="border-radius: 50%; cursor: pointer;">
+                    <img class="lightmode" src="./images/lightmode.png" height="40" width="40" alt="Toggle Light Mode" style="border-radius: 50%; cursor: pointer; display: none;">
+                </a>
+                <button class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#about">About Me</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
         </nav>
     </header>
     <!-- Intro -->
@@ -56,7 +65,7 @@
             <article class="project-card">
                 <h2>Project 2: Minecraft Guess Who Fangame</h2>
                 <p>A Minecraft-themed guessing game where players try to identify a character based on questions and clues.</p>
-                <p>Link to repository: <a href="https://github.com/gabrielricardomaker/Minecraft-Whos-Who-Alpha">GitHub Repository</a></p>
+                <p>Link to repository:<br><a class= "links" href="https://github.com/gabrielricardomaker/Minecraft-Whos-Who-Alpha">GitHub Repository</a></p>
                 <p style="font-size: 3px;">This was extremely botched and horribly written, you have been warned.</p>
             </article>
         </div>
