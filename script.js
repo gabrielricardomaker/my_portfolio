@@ -397,3 +397,105 @@ document.addEventListener('DOMContentLoaded', () => {
     renderProjects(projects);
     console.log('✅ Projetos renderizados!');
 });
+
+
+// ===== SISTEMA DE FILTROS =====
+
+/*
+// Versão com animação de saída
+function renderProjects(projectsToRender) {
+    // Guardar categoria atual
+    currentCategory = category;
+    const grid = document.getElementById('projects-grid');
+    const noResults = document.getElementById('no-results');
+    
+    let filteredProjects;
+
+    if (category === 'all') {
+        filteredProjects = projects;
+    } else {
+        filteredProjects = projects.filter(project => project.category === category);
+    }
+
+    // Fade out dos cards existentes
+    const existingCards = grid.querySelectorAll('.project-card');
+    existingCards.forEach((card, index) => {
+        setTimeout(() => {
+            card.style.animation = 'fadeOut 0.3s ease forwards';
+        }, index * 50);
+    });
+    
+    // Esperar animação terminar antes de limpar
+    setTimeout(() => {
+        grid.innerHTML = '';
+        
+        if (projectsToRender.length === 0) {
+            noResults.style.display = 'block';
+            return;
+        }
+        
+        noResults.style.display = 'none';
+        
+        projectsToRender.forEach(project => {
+            const card = createProjectCard(project);
+            grid.appendChild(card);
+        });
+        
+        updateCounters();
+    }, existingCards.length * 50 + 300);
+
+    // Re-renderizar com projetos filtrados
+    renderProjects(filteredProjects);
+
+    console.log(`Filtro aplicado: ${category} (${filteredProjects.length} projetos)`);
+    
+}
+*/
+
+
+function filterProjects(category) {
+    // Guardar categoria atual
+    currentCategory = category;
+    
+    let filteredProjects;
+    
+    if (category === 'all') {
+        filteredProjects = projects;
+    } else {
+        filteredProjects = projects.filter(project => project.category === category);
+    }
+    
+    // Re-renderizar com projetos filtrados
+    renderProjects(filteredProjects);
+    
+    console.log(`Filtro aplicado: ${category} (${filteredProjects.length} projetos)`);
+}
+
+// ===== EVENT LISTENERS PARA FILTROS =====
+
+function setupFilterListeners() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remover active de todos
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Adicionar active ao clicado
+            button.classList.add('active');
+            
+            // Obter categoria do data attribute
+            const category = button.dataset.category;
+            
+            // Filtrar projetos
+            filterProjects(category);
+        });
+    });
+}
+
+// Adicionar ao DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+    renderProjects(projects);
+    setupFilterListeners();  // ADICIONAR ESTA LINHA
+    console.log('✅ Filtros configurados!');
+});
