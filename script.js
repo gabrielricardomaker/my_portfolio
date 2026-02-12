@@ -602,3 +602,120 @@ document.addEventListener('DOMContentLoaded', () => {
     setupModalListeners();  // ADICIONAR ESTA LINHA
     console.log('✅ Modal configurado!');
 });
+
+
+// ===== SISTEMA DE PESQUISA =====
+
+function searchProjects(query) {
+    // Converter query para lowercase
+    const searchTerm = query.toLowerCase().trim();
+    
+    // Se pesquisa vazia, mostrar todos (respeitando filtro categoria)
+    if (searchTerm === '') {
+        filterProjects(currentCategory);
+        return;
+    }
+    
+    // Começar com projetos da categoria atual
+    let baseProjects = currentCategory === 'all' 
+        ? projects 
+        : projects.filter(p => p.category === currentCategory);
+    
+    // Filtrar por termo de pesquisa
+    const results = baseProjects.filter(project => {
+        // Procurar em múltiplos campos
+        const titleMatch = project.title.toLowerCase().includes(searchTerm);
+        const descMatch = project.description.toLowerCase().includes(searchTerm);
+        const tagsMatch = project.tags.some(tag => 
+            tag.toLowerCase().includes(searchTerm)
+        );
+        
+        return titleMatch || descMatch || tagsMatch;
+    });
+    
+    // Renderizar resultados
+    renderProjects(results);
+    
+    console.log(`Pesquisa: "${query}" - ${results.length} resultados`);
+}
+
+// ===== EVENT LISTENER PARA PESQUISA =====
+
+function setupSearchListener() {
+    const searchInput = document.getElementById('search-input');
+    
+    // Event 'input' dispara a cada tecla pressionada
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value;
+        searchProjects(query);
+    });
+    
+    // Limpar pesquisa com Escape
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            searchInput.value = '';
+            searchProjects('');
+            searchInput.blur();
+        }
+    });
+}
+
+// Adicionar ao DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+    renderProjects(projects);
+    setupFilterListeners();
+    setupModalListeners();
+    setupSearchListener();  // ADICIONAR ESTA LINHA
+    console.log('✅ Pesquisa configurada!');
+});
+
+// ===== DEBOUNCE PARA PESQUISA =====
+
+function debounce(func, delay) {
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), delay);
+    };
+}
+
+// Criar versão debounced da pesquisa
+const debouncedSearch = debounce(searchProjects, 300);
+
+function setupSearchListener() {
+    const searchInput = document.getElementById('search-input');
+    
+    // Usar versão debounced
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value;
+        debouncedSearch(query);
+    });
+    
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            searchInput.value = '';
+            searchProjects('');
+            searchInput.blur();
+        }
+    });
+}
+
+// Quando mudar filtro, limpar pesquisa
+function filterProjects(category) {
+    currentCategory = category;
+    
+    // Limpar input de pesquisa
+    const searchInput = document.getElementById('search-input');
+    searchInput.value = '';
+    
+    let filteredProjects;
+    
+    if (category === 'all') {
+        filteredProjects = projects;
+    } else {
+        filteredProjects = projects.filter(project => project.category === category);
+    }
+    
+    renderProjects(filteredProjects);
+    console.log(`Filtro aplicado: ${category} (${filteredProjects.length} projetos)`);
+}
