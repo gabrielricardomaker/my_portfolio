@@ -55,7 +55,7 @@
 
     
     <!-- Projects -->
-    <section id="projects" class="projects">
+    <!--<section id="projects" class="projects">
         <h2>Projects</h2>
         <div class="projects-grid">
             <article class="project-card">
@@ -69,7 +69,56 @@
                 <p style="font-size: 3px;">This was extremely botched and horribly written, you have been warned.</p>
             </article>
         </div>
-    </section>
+    </section> -->
+
+
+    <section id="projects" class="projects">
+    <h2>Meus Projetos</h2>
+    
+    <!-- Barra de controlo (filtros + pesquisa) -->
+    <div class="projects-controls">
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-category="all">
+                Todos <span class="count">0</span>
+            </button>
+            <button class="filter-btn" data-category="web">
+                Web <span class="count">0</span>
+            </button>
+            <button class="filter-btn" data-category="mobile">
+                Mobile <span class="count">0</span>
+            </button>
+            <button class="filter-btn" data-category="design">
+                Design <span class="count">0</span>
+            </button>
+        </div>
+        
+        <div class="search-box">
+            <input type="text" id="search-input" placeholder="🔍 Pesquisar projetos...">
+        </div>
+    </div>
+    
+    <!-- Grid onde os projetos vão aparecer -->
+    <div id="projects-grid" class="projects-grid">
+        <!-- Os cards serão inseridos aqui via JavaScript -->
+    </div>
+    
+    <!-- Mensagem quando não há resultados -->
+    <div id="no-results" class="no-results" style="display: none;">
+        <p>😕 Nenhum projeto encontrado</p>
+    </div>
+</section>
+
+<!-- Modal (fora da secção) -->
+<div id="project-modal" class="modal">
+    <div class="modal-content">
+        <span class="modal-close">×</span>
+        <div id="modal-body">
+            <!-- Conteúdo do modal será inserido aqui -->
+        </div>
+    </div>
+</div>
+
+
     <!-- Contact -->
     <section id="contact" class="contact">
             <h2>Contact Me</h2>
