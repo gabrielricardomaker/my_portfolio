@@ -244,84 +244,46 @@ document.querySelectorAll('.nav-menu a').forEach(link  => {
 
 // ===== DADOS DOS PROJETOS =====
 
+// TODO: Add Real images. (#c3ff00)
+
 const projects = [
     {
         id: 1,
-        title: 'E-commerce Website',
+        title: 'Portfolio Website',
         category: 'web',
-        description: 'Loja online completa com carrinho de compras',
+        description: 'A personal portfolio website to showcase my projects and skills.',
         image: 'https://via.placeholder.com/400x300/6366f1/ffffff?text=E-commerce',
         tags: ['HTML', 'CSS', 'JavaScript', 'API'],
-        link: 'https://github.com/...',
-        longDescription: 'Website de e-commerce completo com sistema de carrinho, checkout, e integração com API de pagamentos. Interface moderna e responsiva.',
-        features: ['Carrinho de compras', 'Sistema de pagamento', 'Área de utilizador', 'Gestão de produtos'],
-        technologies: ['HTML5', 'CSS3', 'JavaScript ES6+', 'LocalStorage', 'Fetch API'],
-        date: '2025-01'
+        link: 'https://github.com/gabrielricardomaker/my_portfolio',
+        longDescription: 'This site itself is a project! Built with vanilla JavaScript, it features a dynamic project gallery, filtering, search, and a custom modal for project details.',
+        features: ['Tag filtering', 'Search functionality', 'Dark mode toggle', 'Responsive design'],
+        technologies: ['HTML5', 'CSS3', 'JavaScript', 'LocalStorage'],
+        date: '2026-02'
     },
     {
         id: 2,
-        title: 'App de Tarefas',
-        category: 'web',
-        description: 'Gestor de tarefas com filtros e categorias',
+        title: 'Minecraft Guess Who Fangame',
+        category: 'app',
+        description: 'A Minecraft-themed guessing game where players try to identify a character based on questions and clues.',
         image: 'https://via.placeholder.com/400x300/8b5cf6/ffffff?text=Todo+App',
-        tags: ['React', 'CSS', 'LocalStorage'],
-        link: 'https://github.com/...',
-        longDescription: 'Aplicação de gestão de tarefas com sistema de prioridades, categorias e persistência local.',
-        features: ['Adicionar/editar/remover tarefas', 'Filtros por estado', 'Categorias', 'Persistência de dados'],
-        technologies: ['HTML5', 'CSS3', 'JavaScript', 'LocalStorage'],
-        date: '2024-12'
+        tags: ['C#', '.NET 4.7', 'WinForms'],
+        link: 'https://github.com/gabrielricardomaker/Minecraft-Whos-Who-Alpha',
+        longDescription: 'A Minecraft-themed guessing game where players try to identify a character based on questions and clues. The game features a variety of Minecraft characters, each with unique attributes, and players can ask yes/no questions to narrow down their guesses. The current version is an alpha release, released as Source code on github. There are plans to release a more polished version in the future, with a more user-friendly interface and additional features.',
+        features: ['Question-based guessing', 'Character categories', 'Categorization system', 'Badly written code'],
+        technologies: ['C#', '.NET 4.7', 'WinForms'],
+        date: '2026-01'
     },
     {
         id: 3,
-        title: 'Portfolio Designer',
-        category: 'design',
-        description: 'Portfolio criativo para designer gráfico',
+        title: 'Magalhinux Project',
+        category: 'irl',
+        description: 'Complete conversion of a 2014 Magalhães laptop into a Linux machine',
         image: 'https://via.placeholder.com/400x300/10b981/ffffff?text=Portfolio',
-        tags: ['Figma', 'UI/UX', 'Protótipo'],
-        link: 'https://figma.com/...',
-        longDescription: 'Design de portfolio minimalista e elegante para apresentar trabalhos criativos.',
-        features: ['Design responsivo', 'Animações suaves', 'Galeria de trabalhos', 'Formulário de contacto'],
-        technologies: ['Figma', 'Design System', 'Prototyping'],
-        date: '2024-11'
-    },
-    {
-        id: 4,
-        title: 'App Meteorologia',
-        category: 'mobile',
-        description: 'App mobile para consultar previsão do tempo',
-        image: 'https://via.placeholder.com/400x300/f59e0b/ffffff?text=Weather+App',
-        tags: ['React Native', 'API', 'Mobile'],
-        link: 'https://github.com/...',
-        longDescription: 'Aplicação mobile para consultar previsão meteorológica com dados em tempo real.',
-        features: ['Previsão 7 dias', 'Localização automática', 'Alertas meteorológicos', 'Favoritos'],
-        technologies: ['React Native', 'Weather API', 'Geolocation'],
-        date: '2025-01'
-    },
-    {
-        id: 5,
-        title: 'Dashboard Analytics',
-        category: 'web',
-        description: 'Dashboard com gráficos e estatísticas',
-        image: 'https://via.placeholder.com/400x300/ef4444/ffffff?text=Dashboard',
-        tags: ['Vue.js', 'Charts', 'API'],
-        link: 'https://github.com/...',
-        longDescription: 'Dashboard interativo para visualização de dados e analytics com gráficos dinâmicos.',
-        features: ['Gráficos interativos', 'Filtros de data', 'Exportar relatórios', 'Tempo real'],
-        technologies: ['HTML5', 'CSS3', 'JavaScript', 'Chart.js', 'API'],
-        date: '2024-10'
-    },
-    {
-        id: 6,
-        title: 'Redesign Logo Empresa',
-        category: 'design',
-        description: 'Redesign de identidade visual corporativa',
-        image: 'https://via.placeholder.com/400x300/ec4899/ffffff?text=Logo+Design',
-        tags: ['Illustrator', 'Branding', 'Logo'],
-        link: 'https://behance.net/...',
-        longDescription: 'Projeto de redesign completo de identidade visual incluindo logo, cores e tipografia.',
-        features: ['Logo principal', 'Variações', 'Manual de marca', 'Mockups'],
-        technologies: ['Adobe Illustrator', 'Photoshop', 'InDesign'],
-        date: '2024-09'
+        tags: ['Linux', 'Hardware', 'Customization'],
+        longDescription: 'The culmination of more than 3 months of work converting a 2014 Magalhães laptop into a fully functional Linux machine by learning how to reconfigure the BIOS to accept Linux Sparky 8.',
+        features: ['Cinnamon Desktop Environment', 'Sparky Linux', 'Apt package management', 'GRUB 0.97'],
+        technologies: ['Gparted', 'Rufus', 'GRUB', 'Apt'],
+        date: '2025-5'
     }
 ];
 
@@ -335,25 +297,38 @@ function renderProjects(projectsToRender) {
     const grid = document.getElementById('projects-grid');
     const noResults = document.getElementById('no-results');
     
-    // Limpar grid
-    grid.innerHTML = '';
-    
-    // Se não há projetos, mostrar mensagem
-    if (projectsToRender.length === 0) {
-        noResults.style.display = 'block';
-        return;
+    // Fade out existing cards before clearing
+    const existingCards = grid.querySelectorAll('.project-card');
+    if (existingCards.length > 0) {
+        existingCards.forEach((card, index) => {
+            setTimeout(() => {
+                card.style.animation = 'fadeOut 0.3s ease forwards';
+            }, index * 30);
+        });
+        
+        // Wait for animation to finish before clearing
+        setTimeout(() => {
+            grid.innerHTML = '';
+            renderNewCards();
+        }, existingCards.length * 30 + 300);
+    } else {
+        renderNewCards();
     }
     
-    noResults.style.display = 'none';
-    
-    // Criar card para cada projeto
-    projectsToRender.forEach(project => {
-        const card = createProjectCard(project);
-        grid.appendChild(card);
-    });
-    
-    // Atualizar contadores
-    updateCounters();
+    function renderNewCards() {
+        if (projectsToRender.length === 0) {
+            noResults.style.display = 'block';
+            return;
+        }
+        
+        noResults.style.display = 'none';
+        projectsToRender.forEach(project => {
+            const card = createProjectCard(project);
+            grid.appendChild(card);
+        });
+        
+        updateCounters();
+    }
 }
 
 // Criar HTML de um card
@@ -385,11 +360,15 @@ function updateCounters() {
     const webCount = projects.filter(p => p.category === 'web').length;
     const mobileCount = projects.filter(p => p.category === 'mobile').length;
     const designCount = projects.filter(p => p.category === 'design').length;
+    const appCount = projects.filter(p => p.category === 'app').length;
+    const irlCount = projects.filter(p => p.category === 'irl').length;
     
     document.querySelector('[data-category="all"] .count').textContent = allCount;
     document.querySelector('[data-category="web"] .count').textContent = webCount;
     document.querySelector('[data-category="mobile"] .count').textContent = mobileCount;
     document.querySelector('[data-category="design"] .count').textContent = designCount;
+    document.querySelector('[data-category="app"] .count').textContent = appCount;
+    document.querySelector('[data-category="irl"] .count').textContent = irlCount;
 }
 
 // Inicializar ao carregar página
@@ -537,9 +516,9 @@ function openModal(projectId) {
             </div>
         </div>
         
-        <a href="${project.link}" target="_blank" class="modal-link">
+        ${project.link ? `<a href="${project.link}" target="_blank" class="modal-link">
             Ver Projeto Completo →
-        </a>
+        </a>` : ''}
     `;
     
     // Mostrar modal
