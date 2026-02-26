@@ -311,7 +311,35 @@
         </div>
     </div>
 </section>
+<div id="toast-container" class="toast-container"></div>
 
+<section id="admin-messages" class="admin-messages" style="display: none;">
+    <div class="admin-header">
+        <h2>📨 Mensagens Recebidas</h2>
+        <div class="admin-actions">
+            <span class="message-count">
+                <strong id="total-messages">0</strong> mensagens
+            </span>
+            <button id="clear-messages" class="btn-danger">
+                🗑️ Limpar Todas
+            </button>
+        </div>
+    </div>
+    
+    <div id="messages-list" class="messages-list">
+        <!-- Mensagens serão inseridas aqui -->
+    </div>
+    
+    <div id="no-messages" class="no-messages">
+        <p>📭 Ainda não há mensagens</p>
+    </div>
+</section>
+
+<!-- Botão flutuante para abrir admin -->
+<button id="toggle-admin" class="toggle-admin" title="View Admin Messages">
+    📨
+    <span class="badge" id="unread-badge" style="display: none;">0</span>
+</button>
 
     <!-- Footer -->
     <footer>
