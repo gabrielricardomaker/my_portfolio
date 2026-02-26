@@ -18,6 +18,8 @@
     --darkmode-bg: #111827;
     --gray: #727272;
     --danger: #fbff00;
+    --dangerRed: #dc2626;
+    --valid: #48ff00;
     --spacing: 1rem;
     transition: color 300ms ease, box-shadow 300ms ease, border-color 300ms ease;
 }
@@ -694,11 +696,11 @@ body.darkmode .modal-section ul li::before {
     cursor: pointer;
     font-weight: 600;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px #dc2626;
+    box-shadow: 0 4px 15px  var(--dangerRed);
 }
 
 .reset-btn:hover {
-    background: #dc2626;
+    background:  var(--dangerRed);
     transform: translateY(-2px);
 }
 
@@ -780,7 +782,7 @@ body.darkmode .form-group label {
 }
 
 .required {
-    color: #dc2626;
+    color:  var(--dangerRed);
 }
 
 .input-wrapper {
@@ -835,7 +837,7 @@ body.darkmode .form-group textarea {
 
 .form-group.valid .input-icon {
     opacity: 1;
-    color: var(--success);
+    color: var(--valid);
 }
 
 .form-group.valid .input-icon::before {
@@ -844,7 +846,7 @@ body.darkmode .form-group textarea {
 
 .form-group.invalid .input-icon {
     opacity: 1;
-    color: var(--danger);
+    color: var(--dangerRed);
 }
 
 .form-group.invalid .input-icon::before {
@@ -854,19 +856,19 @@ body.darkmode .form-group textarea {
 .form-group.valid input,
 .form-group.valid select,
 .form-group.valid textarea {
-    border-color: var(--success);
+    border-color: var(--valid);
 }
 
 .form-group.invalid input,
 .form-group.invalid select,
 .form-group.invalid textarea {
-    border-color: var(--danger);
+    border-color: var(--dangerRed);
 }
 
 /* Error Messages */
 .error-message {
     display: block;
-    color: var(--danger);
+    color: var(--dangerRed);
     font-size: 0.85em;
     margin-top: 6px;
     min-height: 20px;
@@ -891,7 +893,7 @@ body.darkmode .form-group textarea {
 }
 
 .char-counter.error {
-    color: var(--danger);
+    color: var(--dangerRed);
 }
 
 /* Submit Button */
@@ -1141,7 +1143,7 @@ body.darkmode .message-content {
 }
 
 .delete-message-btn:hover {
-    background: #dc2626;
+    background:  var(--dangerRed);
     transform: translateY(-2px);
 }
 
@@ -1308,7 +1310,7 @@ body.darkmode .scroll-top-btn:hover {
 }
 
 body.darkmode .link {
-    color: #48ff00;
+    color: var(--valid);
 }
 
 body.darkmode .link:hover {

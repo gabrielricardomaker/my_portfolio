@@ -237,7 +237,7 @@ const projects = [
         title: 'Portfolio Website',
         category: 'web',
         description: 'A personal portfolio website to showcase my projects and skills.',
-        image: 'images/portfolio.png', 
+        image: 'images/Portfolio.png', 
         tags: ['HTML', 'CSS', 'JavaScript', 'API'],
         link: 'https://github.com/gabrielricardomaker/my_portfolio',
         longDescription: 'This site itself is a project! Built with vanilla JavaScript, it features a dynamic project gallery, filtering, search, and a custom modal for project details.',
@@ -601,6 +601,207 @@ btn.addEventListener('click', () => {
     });
 });
 
+// ===== VALIDAÇÃO DO FORMULÁRIO =====
+
+// Regras de validação
+const validationRules = {
+    name: {
+        required: true,
+        minLength: 3,
+        pattern: /^[a-zA-ZÀ-ÿ\s]+$/,
+        errorMessages: {
+            required: 'Por favor, introduz o teu nome',
+            minLength: 'O nome deve ter pelo menos 3 caracteres',
+            pattern: 'O nome só pode conter letras'
+        }
+    },
+    email: {
+        required: true,
+        pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        errorMessages: {
+            required: 'Por favor, introduz o teu email',
+            pattern: 'Por favor, introduz um email válido'
+        }
+    },
+
+
+phone: {
+    required: false,
+    pattern: new RegExp('^(\\+351[\\s-]?)?9[0-9]{8}$'),
+    errorMessages: {
+        pattern: 'Formato: +351 912345678 ou 912345678'
+    }
+},
+
+    subject: {
+        required: true,
+        errorMessages: {
+            required: 'Por favor, seleciona um assunto'
+        }
+    },
+    message: {
+        required: true,
+        minLength: 10,
+        maxLength: 500,
+        errorMessages: {
+            required: 'Por favor, escreve uma mensagem',
+            minLength: 'A mensagem deve ter pelo menos 10 caracteres',
+            maxLength: 'A mensagem não pode ter mais de 500 caracteres'
+        }
+    }
+};
+
+// Validar campo individual
+function validateField(fieldName, value) {
+    const rules = validationRules[fieldName];
+    
+    // Required
+    if (rules.required && !value.trim()) {
+        return {
+            valid: false,
+            message: rules.errorMessages.required
+        };
+    }
+    
+    // Min Length
+    if (rules.minLength && value.trim().length < rules.minLength) {
+        return {
+            valid: false,
+            message: rules.errorMessages.minLength
+        };
+    }
+    
+    // Max Length
+    if (rules.maxLength && value.trim().length > rules.maxLength) {
+        return {
+            valid: false,
+            message: rules.errorMessages.maxLength
+        };
+    }
+    
+    // Pattern (RegEx)
+    if (rules.pattern && !rules.pattern.test(value)) {
+        return {
+            valid: false,
+            message: rules.errorMessages.pattern
+        };
+    }
+    
+    // Válido!
+    return {
+        valid: true,
+        message: ''
+    };
+}
+
+// Mostrar feedback visual
+function showFieldFeedback(fieldName, isValid, message = '') {
+    const formGroup = document.getElementById(fieldName).closest('.form-group');
+    const errorElement = formGroup.querySelector('.error-message');
+    
+    // Remover estados anteriores
+    formGroup.classList.remove('valid', 'invalid');
+    
+    // Adicionar novo estado
+    if (isValid) {
+        formGroup.classList.add('valid');
+        errorElement.textContent = '';
+    } else {
+        formGroup.classList.add('invalid');
+        errorElement.textContent = message;
+    }
+}
+// ===== EVENT LISTENERS =====
+
+function setupFormValidation() {
+    const form = document.getElementById('contact-form');
+    const fields = ['name', 'email', 'phone', 'subject', 'message'];
+    
+    // Validar cada campo ao perder foco (blur)
+    fields.forEach(fieldName => {
+        const field = document.getElementById(fieldName);
+        
+        field.addEventListener('blur', () => {
+            const validation = validateField(fieldName, field.value);
+            showFieldFeedback(fieldName, validation.valid, validation.message);
+            updateSubmitButton();
+        });
+        
+        // Validar enquanto escreve (para limpar erros)
+        field.addEventListener('input', () => {
+            // Só valida se já tinha erro
+            const formGroup = field.closest('.form-group');
+            if (formGroup.classList.contains('invalid')) {
+                const validation = validateField(fieldName, field.value);
+                showFieldFeedback(fieldName, validation.valid, validation.message);
+                updateSubmitButton();
+            }
+        });
+    });
+}
+
+// Validar form inteiro
+function validateForm() {
+    const fields = ['name', 'email', 'subject', 'message'];
+    let isFormValid = true;
+    
+    fields.forEach(fieldName => {
+        const field = document.getElementById(fieldName);
+        const validation = validateField(fieldName, field.value);
+        
+        showFieldFeedback(fieldName, validation.valid, validation.message);
+        
+        if (!validation.valid) {
+            isFormValid = false;
+        }
+    });
+    
+    return isFormValid;
+}
+
+// Atualizar estado do botão submit
+function updateSubmitButton() {
+    const submitBtn = document.getElementById('submit-btn');
+    const isValid = validateForm();
+    
+    submitBtn.disabled = !isValid;
+}
+
+// ===== CONTADOR DE CARACTERES =====
+
+function setupCharCounter() {
+    const messageField = document.getElementById('message');
+    const charCount = document.getElementById('char-count');
+    const counter = document.querySelector('.char-counter');
+    const maxLength = 500;
+    
+    messageField.addEventListener('input', () => {
+        const length = messageField.value.length;
+        charCount.textContent = length;
+        
+        // Remover classes anteriores
+        counter.classList.remove('warning', 'error');
+        
+        // Adicionar warning quando >400 caracteres
+        if (length > 400 && length <= maxLength) {
+            counter.classList.add('warning');
+        }
+        
+        // Adicionar error quando >maxLength
+        if (length > maxLength) {
+            counter.classList.add('error');
+        }
+    });
+}
+
+
+
+
+
+
+
+
+// THIS NEEDS TO BE THE LAST THING IN THE FILE, OTHERWISE IT BREAKS EVERYTHING ELSE
 // ===== CONSOLIDATED DOM CONTENT LOADED =====
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -618,212 +819,13 @@ document.addEventListener('DOMContentLoaded', () => {
     setupSearchListener();
     
     // Contact Form
-    setupContactForm();
-
+    setupFormValidation();
+    setupCharCounter();
+    
     console.log('✅ Filters configured!');
     console.log('✅ Modal configured!');
     console.log('✅ Search configured!');
+    console.log('✅ Validação configurada');
+    console.log('✅ Contador de caracteres ativo');
     console.log('✅ All features initialized!');
 });
-
-// ===== CONTACT FORM =====
-
-// Form validation rules
-const formRules = {
-    name: {
-        minLength: 2,
-        maxLength: 50,
-        regex: /^[a-zA-Z\s'-]+$/,
-        message: 'Name must be 2-50 characters and contain only letters, spaces, hyphens, or apostrophes'
-    },
-    email: {
-        regex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-        message: 'Please enter a valid email address'
-    },
-    subject: {
-        minLength: 3,
-        maxLength: 100,
-        message: 'Subject must be 3-100 characters'
-    },
-    message: {
-        minLength: 10,
-        maxLength: 1000,
-        message: 'Message must be 10-1000 characters'
-    }
-};
-
-function validateField(fieldName, value) {
-    const rules = formRules[fieldName];
-    if (!rules) return true;
-    if (rules.minLength && value.length < rules.minLength) return false;
-    if (rules.maxLength && value.length > rules.maxLength) return false;
-    if (rules.regex && !rules.regex.test(value)) return false;
-    return true;
-}
-
-function showError(fieldName, message) {
-    const errorElement = document.getElementById(`${fieldName}-error`);
-    if (errorElement) {
-        errorElement.textContent = message;
-        errorElement.style.display = 'block';
-    }
-}
-
-function clearError(fieldName) {
-    const errorElement = document.getElementById(`${fieldName}-error`);
-    if (errorElement) {
-        errorElement.textContent = '';
-        errorElement.style.display = 'none';
-    }
-}
-
-function getAllMessages() {
-    const messages = localStorage.getItem('contactMessages');
-    return messages ? JSON.parse(messages) : [];
-}
-
-function saveMessage(messageData) {
-    const messages = getAllMessages();
-    messageData.id = Date.now();
-    messageData.timestamp = new Date().toISOString();
-    messages.push(messageData);
-    localStorage.setItem('contactMessages', JSON.stringify(messages));
-    return messageData;
-}
-
-function deleteMessage(messageId) {
-    let messages = getAllMessages();
-    messages = messages.filter(msg => msg.id !== messageId);
-    localStorage.setItem('contactMessages', JSON.stringify(messages));
-}
-
-function clearAllMessages() {
-    const confirmed = window.confirm('Are you sure you want to delete all messages? This cannot be undone.');
-    if (confirmed) {
-        localStorage.removeItem('contactMessages');
-        renderMessagesList();
-        console.log('All messages cleared.');
-    }
-}
-
-function renderMessagesList() {
-    const messagesList = document.getElementById('messages-list');
-    const clearBtn = document.getElementById('clear-messages');
-    const messages = getAllMessages();
-    
-    if (messages.length === 0) {
-        messagesList.innerHTML = '<p class="no-messages">No messages saved yet.</p>';
-        clearBtn.style.display = 'none';
-        return;
-    }
-    
-    clearBtn.style.display = 'block';
-    
-    messagesList.innerHTML = messages.map(msg => {
-        const date = new Date(msg.timestamp).toLocaleString();
-        return `
-            <div class="message-item">
-                <div class="message-header">
-                    <h4>${msg.name}</h4>
-                    <small>${date}</small>
-                </div>
-                <p class="message-subject"><strong>Subject:</strong> ${msg.subject}</p>
-                <p class="message-email"><strong>Email:</strong> <a href="mailto:${msg.email}">${msg.email}</a></p>
-                <p class="message-content">${msg.message}</p>
-                <button class="delete-message-btn" data-id="${msg.id}">🗑️ Delete</button>
-            </div>
-        `;
-    }).join('');
-    
-    document.querySelectorAll('.delete-message-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const messageId = parseInt(e.target.dataset.id);
-            deleteMessage(messageId);
-            renderMessagesList();
-            console.log('Message deleted.');
-        });
-    });
-}
-
-function setupContactForm() {
-    const form = document.getElementById('contact-form');
-    
-    if (!form) return;
-    
-    form.querySelectorAll('input, textarea').forEach(field => {
-        field.addEventListener('blur', () => {
-            const fieldName = field.name;
-            const value = field.value.trim();
-            
-            if (value === '') {
-                showError(fieldName, `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} is required`);
-            } else if (!validateField(fieldName, value)) {
-                showError(fieldName, formRules[fieldName].message);
-            } else {
-                clearError(fieldName);
-            }
-        });
-        
-        field.addEventListener('focus', () => {
-            clearError(field.name);
-        });
-    });
-    
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        const formData = {
-            name: document.getElementById('name').value.trim(),
-            email: document.getElementById('email').value.trim(),
-            subject: document.getElementById('subject').value.trim(),
-            message: document.getElementById('message').value.trim()
-        };
-        
-        let isValid = true;
-        
-        Object.keys(formData).forEach(fieldName => {
-            if (formData[fieldName] === '') {
-                showError(fieldName, `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} is required`);
-                isValid = false;
-            } else if (!validateField(fieldName, formData[fieldName])) {
-                showError(fieldName, formRules[fieldName].message);
-                isValid = false;
-            } else {
-                clearError(fieldName);
-            }
-        });
-        
-        if (isValid) {
-            saveMessage(formData);
-            
-            const formMessage = document.getElementById('form-message');
-            formMessage.textContent = '✅ Message saved successfully!';
-            formMessage.className = 'form-message success';
-            formMessage.style.display = 'block';
-            
-            form.reset();
-            renderMessagesList();
-            
-            setTimeout(() => {
-                formMessage.style.display = 'none';
-            }, 3000);
-            
-            console.log('Message saved:', formData);
-        } else {
-            const formMessage = document.getElementById('form-message');
-            formMessage.textContent = '❌ Please fix the errors above';
-            formMessage.className = 'form-message error';
-            formMessage.style.display = 'block';
-        }
-    });
-    
-    const clearBtn = document.getElementById('clear-messages');
-    if (clearBtn) {
-        clearBtn.addEventListener('click', clearAllMessages);
-    }
-    
-    renderMessagesList();
-    console.log('✅ Contact form initialized!');
-}
-
-// ===== END CONTACT FORM =====
