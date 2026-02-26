@@ -315,13 +315,13 @@
 
 <section id="admin-messages" class="admin-messages" style="display: none;">
     <div class="admin-header">
-        <h2>📨 Mensagens Recebidas</h2>
+        <h2>📨 Recieved Messages</h2>
         <div class="admin-actions">
             <span class="message-count">
-                <strong id="total-messages">0</strong> mensagens
+                <strong id="total-messages">0</strong> messages
             </span>
             <button id="clear-messages" class="btn-danger">
-                🗑️ Limpar Todas
+                🗑️ Clear All
             </button>
         </div>
     </div>
@@ -331,7 +331,35 @@
     </div>
     
     <div id="no-messages" class="no-messages">
-        <p>📭 Ainda não há mensagens</p>
+        <p>📭 No messages yet</p>
+    </div>
+</section>
+
+<!-- Botão flutuante para abrir admin -->
+<button id="toggle-admin" class="toggle-admin" title="View Admin Messages">
+    📨
+    <span class="badge" id="unread-badge" style="display: none;">0</span>
+</button><div id="toast-container" class="toast-container"></div>
+
+<section id="admin-messages" class="admin-messages" style="display: none;">
+    <div class="admin-header">
+        <h2>📨 Recieved Messages</h2>
+        <div class="admin-actions">
+            <span class="message-count">
+                <strong id="total-messages">0</strong> messages
+            </span>
+            <button id="clear-messages" class="btn-danger">
+                🗑️ Clear All
+            </button>
+        </div>
+    </div>
+    
+    <div id="messages-list" class="messages-list">
+        <!-- Mensagens serão inseridas aqui -->
+    </div>
+    
+    <div id="no-messages" class="no-messages">
+        <p>📭 No messages yet</p>
     </div>
 </section>
 
