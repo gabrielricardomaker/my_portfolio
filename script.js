@@ -794,7 +794,312 @@ function setupCharCounter() {
     });
 }
 
+// ===== TOAST NOTIFICATIONS =====
 
+function clearAllToasts() {
+    const container = document.getElementById('toast-container');
+    const toasts = container.querySelectorAll('.toast');
+    toasts.forEach(toast => {
+        toast.style.animation = 'fadeOut 0.2s ease forwards';
+        setTimeout(() => toast.remove(), 200);
+    });
+}
+
+function showToast(type, title, message, duration = 3000) {
+    const container = document.getElementById('toast-container');
+    
+    // Clear existing toasts
+    clearAllToasts();
+    
+    // Ícones por tipo
+    const icons = {
+        success: '✅',
+        error: '❌',
+        warning: '⚠️',
+        info: 'ℹ️'
+    };
+    
+    // Criar toast
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `
+        <div class="toast-icon">${icons[type]}</div>
+        <div class="toast-content">
+            <div class="toast-title">${title}</div>
+            <div class="toast-message">${message}</div>
+        </div>
+        <button class="toast-close">×</button>
+    `;
+    
+    // Adicionar ao container
+    container.appendChild(toast);
+    
+    // Close button
+    const closeBtn = toast.querySelector('.toast-close');
+    closeBtn.addEventListener('click', () => {
+        toast.style.animation = 'fadeOut 0.2s ease forwards';
+        setTimeout(() => toast.remove(), 200);
+    });
+    
+    // Auto-remove após duration
+    const timeoutId = setTimeout(() => {
+        if (toast.parentElement) {
+            toast.style.animation = 'fadeOut 0.2s ease forwards';
+            setTimeout(() => toast.remove(), 200);
+        }
+    }, duration);
+    
+    // Store timeout ID for cleanup
+    toast.dataset.timeoutId = timeoutId;
+    
+    console.log(`Toast ${type}: ${title}`);
+}
+
+// ===== MENSAGENS EM LOCALSTORAGE =====
+
+function saveMessageToStorage(formData) {
+    // Get existing messages
+    let messages = JSON.parse(localStorage.getItem('contactMessages')) || [];
+    
+    // Add new message with timestamp
+    const newMessage = {
+        id: Date.now(),
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        subject: formData.subject,
+        message: formData.message,
+        timestamp: new Date().toISOString()
+    };
+    
+    messages.push(newMessage);
+    localStorage.setItem('contactMessages', JSON.stringify(messages));
+    
+    return newMessage;
+}
+
+function loadMessagesFromStorage() {
+    return JSON.parse(localStorage.getItem('contactMessages')) || [];
+}
+
+function displayMessages() {
+    const messages = loadMessagesFromStorage();
+    const messagesList = document.querySelector('.messages-list');
+    
+    if (!messagesList) return;
+    
+    if (messages.length === 0) {
+        messagesList.innerHTML = '<div class="no-messages">Nenhuma mensagem ainda</div>';
+        return;
+    }
+    
+    messagesList.innerHTML = messages.map(msg => {
+        const date = new Date(msg.timestamp);
+        const formattedDate = date.toLocaleDateString('pt-PT') + ' ' + date.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' });
+        
+        return `
+            <div class="message-item">
+                <div class="message-header">
+                    <h4>${msg.name}</h4>
+                    <small>${formattedDate}</small>
+                </div>
+                <p class="message-email"><strong>Email:</strong> ${msg.email}</p>
+                ${msg.phone ? `<p class="message-email"><strong>Telefone:</strong> ${msg.phone}</p>` : ''}
+                <p class="message-subject"><strong>Assunto:</strong> ${msg.subject}</p>
+                <div class="message-content">${msg.message}</div>
+                <button class="delete-message-btn" onclick="deleteMessage(${msg.id})">Eliminar</button>
+            </div>
+        `;
+    }).join('');
+}
+
+function deleteMessage(id) {
+    if (confirm('Tem a certeza que deseja eliminar esta mensagem?')) {
+        let messages = loadMessagesFromStorage();
+        messages = messages.filter(msg => msg.id !== id);
+        localStorage.setItem('contactMessages', JSON.stringify(messages));
+        displayMessages();
+        showToast('success', 'Eliminada!', 'Mensagem eliminada com sucesso');
+    }
+}
+
+function clearAllMessages() {
+    if (confirm('Tem a certeza que deseja eliminar TODAS as mensagens?')) {
+        localStorage.removeItem('contactMessages');
+        displayMessages();
+        showToast('success', 'Limpas!', 'Todas as mensagens foram eliminadas');
+    }
+}
+
+// ===== PROCESSAR SUBMIT =====
+
+function setupFormSubmit() {
+    const form = document.getElementById('contact-form');
+    const submitBtn = document.getElementById('submit-btn');
+    
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Validar form final
+        if (!validateForm()) {
+            showToast('error', 'Erro!', 'Por favor, corrige os erros no formulário');
+            return;
+        }
+        
+        // Desativar botão e mostrar loading
+        submitBtn.disabled = true;
+        submitBtn.classList.add('loading');
+        
+        try {
+            // Simular delay de rede
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // Obter dados do formulário
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
+            
+            // Salvar em localStorage
+            saveMessageToStorage(formData);
+            
+            // Log da mensagem enviada
+            console.log(`Message sent: ${formData.message}`);
+            
+            // Atualizar display de mensagens
+            displayMessages();
+            
+            // Atualizar painel admin
+            loadMessages();
+            
+            // Sucesso!
+            showToast(
+                'success',
+                'Mensagem Enviada!',
+                'Obrigado pelo contacto. Respondo em breve!'
+            );
+            
+            // Limpar formulário
+            form.reset();
+            
+            // Remover estados de validação
+            document.querySelectorAll('.form-group').forEach(group => {
+                group.classList.remove('valid', 'invalid');
+            });
+            
+            // Resetar contador
+            document.getElementById('char-count').textContent = '0';
+            
+        } catch (error) {
+            showToast(
+                'error',
+                'Erro ao Enviar',
+                'Ocorreu um erro. Tenta novamente.'
+            );
+            console.error('Form submission error:', error);
+        } finally {
+            // Reativar botão e remover loading
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('loading');
+        }
+    });
+}
+
+// ===== ADMIN VIEW =====
+
+function loadMessages() {
+    const messages = JSON.parse(localStorage.getItem('contactMessages')) || [];
+    const messagesList = document.getElementById('messages-list');
+    const noMessages = document.getElementById('no-messages');
+    const totalMessages = document.getElementById('total-messages');
+    const unreadBadge = document.getElementById('unread-badge');
+    
+    // Atualizar contador
+    totalMessages.textContent = messages.length;
+    
+    // Contar não lidas
+    const unreadCount = messages.filter(m => !m.read).length;
+    if (unreadCount > 0) {
+        unreadBadge.textContent = unreadCount;
+        unreadBadge.style.display = 'flex';
+    } else {
+        unreadBadge.style.display = 'none';
+    }
+    
+    // Mostrar/esconder mensagens
+    if (messages.length === 0) {
+        messagesList.style.display = 'none';
+        noMessages.style.display = 'block';
+        return;
+    }
+    
+    messagesList.style.display = 'flex';
+    noMessages.style.display = 'none';
+    
+    // Renderizar mensagens
+    messagesList.innerHTML = messages.map(msg => {
+        const date = new Date(msg.timestamp);
+        return `
+            <div class="message-item">
+                <div class="message-header">
+                    <h4>${msg.name}</h4>
+                    <small>${date.toLocaleDateString('pt-PT')} ${date.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' })}</small>
+                </div>
+                <p class="message-email"><strong>Email:</strong> ${msg.email}</p>
+                ${msg.phone ? `<p class="message-email"><strong>Telefone:</strong> ${msg.phone}</p>` : ''}
+                <p class="message-subject"><strong>Assunto:</strong> ${msg.subject}</p>
+                <div class="message-content">${msg.message}</div>
+                <button class="delete-message-btn" onclick="deleteMessage(${msg.id})">🗑️ Eliminar</button>
+            </div>
+        `;
+    }).join('');
+}
+
+function deleteMessage(id) {
+    if (!confirm('Eliminar esta mensagem?')) return;
+    
+    let messages = JSON.parse(localStorage.getItem('contactMessages')) || [];
+    messages = messages.filter(m => m.id !== id);
+    localStorage.setItem('contactMessages', JSON.stringify(messages));
+    
+    loadMessages();
+    showToast('success', 'Eliminada!', 'Mensagem removida com sucesso');
+}
+
+function clearAllMessages() {
+    if (!confirm('Eliminar TODAS as mensagens? Esta ação é irreversível!')) return;
+    
+    localStorage.removeItem('contactMessages');
+    loadMessages();
+    showToast('success', 'Limpo!', 'Todas as mensagens foram removidas');
+}
+
+// Toggle admin view
+function setupAdminToggle() {
+    const toggleBtn = document.getElementById('toggle-admin');
+    const adminSection = document.getElementById('admin-messages');
+    let isVisible = false;
+    
+    toggleBtn.addEventListener('click', () => {
+        isVisible = !isVisible;
+        adminSection.style.display = isVisible ? 'block' : 'none';
+        
+        if (isVisible) {
+            loadMessages();
+            // Scroll para admin
+            adminSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+}
+
+// Limpar todas - melhorado para funcionar com o novo botão
+const clearAllBtn = document.getElementById('clear-messages');
+if (clearAllBtn) {
+    clearAllBtn.addEventListener('click', clearAllMessages);
+}
 
 
 
@@ -821,11 +1126,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Contact Form
     setupFormValidation();
     setupCharCounter();
+    setupFormSubmit();
     
+    // Messages
+    displayMessages();
+    const clearMessagesBtn = document.querySelector('.clear-messages-btn');
+    if (clearMessagesBtn) {
+        clearMessagesBtn.addEventListener('click', clearAllMessages);
+    }
+    
+    setupAdminToggle();
+    loadMessages(); // Carregar contador inicial
+
     console.log('✅ Filters configured!');
     console.log('✅ Modal configured!');
     console.log('✅ Search configured!');
     console.log('✅ Validação configurada');
     console.log('✅ Contador de caracteres ativo');
-    console.log('✅ All features initialized!');
+    console.log('✅ Form submit configurado');
+    console.log('✅ Mensagens e toasts configurados!');
+    console.log('✅ Admin view configurada');
 });
