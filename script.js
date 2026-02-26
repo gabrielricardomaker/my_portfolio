@@ -1,6 +1,6 @@
 console.log('Portfolio successfully loaded.');
 
-//Dark Mode Toggle
+// Dark Mode Toggle
 const darkModeToggle = document.getElementById('darkmode-toggle');
 const darkmodeIcon = darkModeToggle.querySelector('.darkmode');
 const lightmodeIcon = darkModeToggle.querySelector('.lightmode');
@@ -87,7 +87,7 @@ function toggleFormat() {
     localStorage.setItem('clockFormat', is24Hour ? '24' : '12');
     updateClock();
     
-    console.log(`Formato: ${is24Hour ? '24h' : '12h'}`);
+    console.log(`Format: ${is24Hour ? '24h' : '12h'}`);
 }
 
 // Button event listener
@@ -104,13 +104,6 @@ function loadClockFormat() {
     }
 }
 
-// Add to DOM
-document.addEventListener('DOMContentLoaded', () => {
-    loadClockFormat();
-    initClock();
-});
-// End of Clock
-
 // ===== Visit Counter =====
 
 // Get Current Count
@@ -118,7 +111,7 @@ function getVisitCount() {
     // From localStorage (returns string or null)
     const count = localStorage.getItem('visitCount');
     
-    // Converter para número (ou 0 se não existir)
+    // Convert to number (or 0 if it doesn't exist)
     return count ? parseInt(count) : 0;
 }
 
@@ -192,11 +185,6 @@ function initVisitCounter() {
     console.log('Visit counter initialized.');
 }
 
-// Add to DOM
-document.addEventListener('DOMContentLoaded', () => {
-    initVisitCounter();
-});
-
 // Reset visit counter
 function resetVisitCounter() {
     // Confirmation dialog
@@ -241,10 +229,7 @@ document.querySelectorAll('.nav-menu a').forEach(link  => {
     });
 });
 
-
-// ===== DADOS DOS PROJETOS =====
-
-// TODO: Add Real images. (#c3ff00)
+// ===== PROJECT DATA =====
 
 const projects = [
     {
@@ -252,7 +237,7 @@ const projects = [
         title: 'Portfolio Website',
         category: 'web',
         description: 'A personal portfolio website to showcase my projects and skills.',
-        image: 'https://via.placeholder.com/400x300/6366f1/ffffff?text=E-commerce',
+        image: 'images/portfolio.png', 
         tags: ['HTML', 'CSS', 'JavaScript', 'API'],
         link: 'https://github.com/gabrielricardomaker/my_portfolio',
         longDescription: 'This site itself is a project! Built with vanilla JavaScript, it features a dynamic project gallery, filtering, search, and a custom modal for project details.',
@@ -265,11 +250,11 @@ const projects = [
         title: 'Minecraft Guess Who Fangame',
         category: 'app',
         description: 'A Minecraft-themed guessing game where players try to identify a character based on questions and clues.',
-        image: 'https://via.placeholder.com/400x300/8b5cf6/ffffff?text=Todo+App',
+        image: 'images/McFg.png',  // will point to local file once added
         tags: ['C#', '.NET 4.7', 'WinForms'],
         link: 'https://github.com/gabrielricardomaker/Minecraft-Whos-Who-Alpha',
         longDescription: 'A Minecraft-themed guessing game where players try to identify a character based on questions and clues. The game features a variety of Minecraft characters, each with unique attributes, and players can ask yes/no questions to narrow down their guesses. The current version is an alpha release, released as Source code on github. There are plans to release a more polished version in the future, with a more user-friendly interface and additional features.',
-        features: ['Question-based guessing', 'Character categories', 'Categorization system', 'Badly written code'],
+        features: ['Question-based guessing', 'Character categories', 'Categorization system', 'Badly written code', 'A Homage to both an influential game and a beloved YouTuber'],
         technologies: ['C#', '.NET 4.7', 'WinForms'],
         date: '2026-01'
     },
@@ -278,7 +263,7 @@ const projects = [
         title: 'Magalhinux Project',
         category: 'irl',
         description: 'Complete conversion of a 2014 Magalhães laptop into a Linux machine',
-        image: 'https://via.placeholder.com/400x300/10b981/ffffff?text=Portfolio',
+        image: 'https://pt.static.webuy.com/product_images/Inform%C3%A1tica/Port%C3%A1teis%20-%20Windows/SPORMAGMG10T120B_l.jpg',
         tags: ['Linux', 'Hardware', 'Customization'],
         longDescription: 'The culmination of more than 3 months of work converting a 2014 Magalhães laptop into a fully functional Linux machine by learning how to reconfigure the BIOS to accept Linux Sparky 8.',
         features: ['Cinnamon Desktop Environment', 'Sparky Linux', 'Apt package management', 'GRUB 0.97'],
@@ -287,11 +272,10 @@ const projects = [
     }
 ];
 
-// Variável global para controlar filtro atual
+// Global variable to control current filter
 let currentCategory = 'all';
 
-
-// ===== RENDERIZAR PROJETOS =====
+// ===== RENDER PROJECTS =====
 
 function renderProjects(projectsToRender) {
     const grid = document.getElementById('projects-grid');
@@ -331,14 +315,14 @@ function renderProjects(projectsToRender) {
     }
 }
 
-// Criar HTML de um card
+// Create HTML for a card
 function createProjectCard(project) {
     const card = document.createElement('div');
     card.className = 'project-card';
     card.dataset.id = project.id;
     card.dataset.category = project.category;
     
-    // Template string com HTML do card
+    // Template string with card HTML
     card.innerHTML = `
         <img src="${project.image}" alt="${project.title}">
         <div class="project-card-body">
@@ -354,7 +338,7 @@ function createProjectCard(project) {
     return card;
 }
 
-// Atualizar números nos botões de filtro
+// Update numbers on filter buttons
 function updateCounters() {
     const allCount = projects.length;
     const webCount = projects.filter(p => p.category === 'web').length;
@@ -371,69 +355,10 @@ function updateCounters() {
     document.querySelector('[data-category="irl"] .count').textContent = irlCount;
 }
 
-// Inicializar ao carregar página
-document.addEventListener('DOMContentLoaded', () => {
-    renderProjects(projects);
-    console.log('✅ Projetos renderizados!');
-});
-
-
-// ===== SISTEMA DE FILTROS =====
-
-/*
-// Versão com animação de saída
-function renderProjects(projectsToRender) {
-    // Guardar categoria atual
-    currentCategory = category;
-    const grid = document.getElementById('projects-grid');
-    const noResults = document.getElementById('no-results');
-    
-    let filteredProjects;
-
-    if (category === 'all') {
-        filteredProjects = projects;
-    } else {
-        filteredProjects = projects.filter(project => project.category === category);
-    }
-
-    // Fade out dos cards existentes
-    const existingCards = grid.querySelectorAll('.project-card');
-    existingCards.forEach((card, index) => {
-        setTimeout(() => {
-            card.style.animation = 'fadeOut 0.3s ease forwards';
-        }, index * 50);
-    });
-    
-    // Esperar animação terminar antes de limpar
-    setTimeout(() => {
-        grid.innerHTML = '';
-        
-        if (projectsToRender.length === 0) {
-            noResults.style.display = 'block';
-            return;
-        }
-        
-        noResults.style.display = 'none';
-        
-        projectsToRender.forEach(project => {
-            const card = createProjectCard(project);
-            grid.appendChild(card);
-        });
-        
-        updateCounters();
-    }, existingCards.length * 50 + 300);
-
-    // Re-renderizar com projetos filtrados
-    renderProjects(filteredProjects);
-
-    console.log(`Filtro aplicado: ${category} (${filteredProjects.length} projetos)`);
-    
-}
-*/
-
+// ===== FILTER SYSTEM =====
 
 function filterProjects(category) {
-    // Guardar categoria atual
+    // Save current category
     currentCategory = category;
     
     let filteredProjects;
@@ -444,53 +369,46 @@ function filterProjects(category) {
         filteredProjects = projects.filter(project => project.category === category);
     }
     
-    // Re-renderizar com projetos filtrados
+    // Re-render with filtered projects
     renderProjects(filteredProjects);
     
-    console.log(`Filtro aplicado: ${category} (${filteredProjects.length} projetos)`);
+    console.log(`Filter applied: ${category} (${filteredProjects.length} projects)`);
 }
 
-// ===== EVENT LISTENERS PARA FILTROS =====
+// ===== EVENT LISTENERS FOR FILTERS =====
 
 function setupFilterListeners() {
     const filterButtons = document.querySelectorAll('.filter-btn');
     
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
-            // Remover active de todos
+            // Remove active from all
             filterButtons.forEach(btn => btn.classList.remove('active'));
             
-            // Adicionar active ao clicado
+            // Add active to clicked
             button.classList.add('active');
             
-            // Obter categoria do data attribute
+            // Get category from data attribute
             const category = button.dataset.category;
             
-            // Filtrar projetos
+            // Filter projects
             filterProjects(category);
         });
     });
 }
 
-// Adicionar ao DOMContentLoaded
-document.addEventListener('DOMContentLoaded', () => {
-    renderProjects(projects);
-    setupFilterListeners();  // ADICIONAR ESTA LINHA
-    console.log('✅ Filtros configurados!');
-});
-
-// ===== SISTEMA DE MODAL =====
+// ===== MODAL SYSTEM =====
 
 function openModal(projectId) {
-    // Encontrar projeto pelo ID
+    // Find project by ID
     const project = projects.find(p => p.id === projectId);
     
     if (!project) {
-        console.error('Projeto não encontrado!');
+        console.error('Project not found!');
         return;
     }
     
-    // Preencher conteúdo do modal
+    // Fill modal content
     const modalBody = document.getElementById('modal-body');
     modalBody.innerHTML = `
         <span class="modal-category">${project.category}</span>
@@ -498,53 +416,53 @@ function openModal(projectId) {
         <img src="${project.image}" alt="${project.title}" class="modal-image">
         
         <div class="modal-section">
-            <h3>Sobre o Projeto</h3>
+            <h3>About the Project</h3>
             <p>${project.longDescription}</p>
         </div>
         
         <div class="modal-section">
-            <h3>Funcionalidades</h3>
+            <h3>Features</h3>
             <ul>
                 ${project.features.map(feature => `<li>${feature}</li>`).join('')}
             </ul>
         </div>
         
         <div class="modal-section">
-            <h3>Tecnologias Utilizadas</h3>
+            <h3>Technologies Used</h3>
             <div class="modal-tech">
                 ${project.technologies.map(tech => `<span class="tech-badge">${tech}</span>`).join('')}
             </div>
         </div>
         
         ${project.link ? `<a href="${project.link}" target="_blank" class="modal-link">
-            Ver Projeto Completo →
+            View Full Project →
         </a>` : ''}
     `;
     
-    // Mostrar modal
+    // Show modal
     const modal = document.getElementById('project-modal');
     modal.classList.add('active');
     
-    // Prevenir scroll do body
+    // Prevent body scroll
     document.body.style.overflow = 'hidden';
     
-    console.log(`Modal aberto: ${project.title}`);
+    console.log(`Modal opened: ${project.title}`);
 }
 
 function closeModal() {
     const modal = document.getElementById('project-modal');
     modal.classList.remove('active');
     
-    // Restaurar scroll
+    // Restore scroll
     document.body.style.overflow = 'auto';
     
-    console.log('Modal fechado');
+    console.log('Modal closed');
 }
 
-// ===== EVENT LISTENERS DO MODAL =====
+// ===== MODAL EVENT LISTENERS =====
 
 function setupModalListeners() {
-    // Event Delegation nos cards
+    // Event Delegation on cards
     const grid = document.getElementById('projects-grid');
     grid.addEventListener('click', (e) => {
         const card = e.target.closest('.project-card');
@@ -554,11 +472,11 @@ function setupModalListeners() {
         }
     });
     
-    // Fechar modal ao clicar no X
+    // Close modal when clicking X
     const closeBtn = document.querySelector('.modal-close');
     closeBtn.addEventListener('click', closeModal);
     
-    // Fechar modal ao clicar fora (no overlay)
+    // Close modal when clicking outside (overlay)
     const modal = document.getElementById('project-modal');
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {
@@ -566,7 +484,7 @@ function setupModalListeners() {
         }
     });
     
-    // Fechar modal com tecla Escape
+    // Close modal with Escape key
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             closeModal();
@@ -574,35 +492,26 @@ function setupModalListeners() {
     });
 }
 
-// Adicionar ao DOMContentLoaded
-document.addEventListener('DOMContentLoaded', () => {
-    renderProjects(projects);
-    setupFilterListeners();
-    setupModalListeners();  // ADICIONAR ESTA LINHA
-    console.log('✅ Modal configurado!');
-});
-
-
-// ===== SISTEMA DE PESQUISA =====
+// ===== SEARCH SYSTEM =====
 
 function searchProjects(query) {
-    // Converter query para lowercase
+    // Convert query to lowercase
     const searchTerm = query.toLowerCase().trim();
     
-    // Se pesquisa vazia, mostrar todos (respeitando filtro categoria)
+    // If empty search, show all (respecting category filter)
     if (searchTerm === '') {
         filterProjects(currentCategory);
         return;
     }
     
-    // Começar com projetos da categoria atual
+    // Start with projects from current category
     let baseProjects = currentCategory === 'all' 
         ? projects 
         : projects.filter(p => p.category === currentCategory);
     
-    // Filtrar por termo de pesquisa
+    // Filter by search term
     const results = baseProjects.filter(project => {
-        // Procurar em múltiplos campos
+        // Search in multiple fields
         const titleMatch = project.title.toLowerCase().includes(searchTerm);
         const descMatch = project.description.toLowerCase().includes(searchTerm);
         const tagsMatch = project.tags.some(tag => 
@@ -612,59 +521,18 @@ function searchProjects(query) {
         return titleMatch || descMatch || tagsMatch;
     });
     
-    // Renderizar resultados
+    // Render results
     renderProjects(results);
     
-    console.log(`Pesquisa: "${query}" - ${results.length} resultados`);
+    console.log(`Search: "${query}" - ${results.length} results`);
 }
 
-// ===== EVENT LISTENER PARA PESQUISA =====
+// ===== EVENT LISTENER FOR SEARCH =====
 
 function setupSearchListener() {
     const searchInput = document.getElementById('search-input');
     
-    // Event 'input' dispara a cada tecla pressionada
-    searchInput.addEventListener('input', (e) => {
-        const query = e.target.value;
-        searchProjects(query);
-    });
-    
-    // Limpar pesquisa com Escape
-    searchInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            searchInput.value = '';
-            searchProjects('');
-            searchInput.blur();
-        }
-    });
-}
-
-// Adicionar ao DOMContentLoaded
-document.addEventListener('DOMContentLoaded', () => {
-    renderProjects(projects);
-    setupFilterListeners();
-    setupModalListeners();
-    setupSearchListener();  // ADICIONAR ESTA LINHA
-    console.log('✅ Pesquisa configurada!');
-});
-
-// ===== DEBOUNCE PARA PESQUISA =====
-
-function debounce(func, delay) {
-    let timeout;
-    return function(...args) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(this, args), delay);
-    };
-}
-
-// Criar versão debounced da pesquisa
-const debouncedSearch = debounce(searchProjects, 300);
-
-function setupSearchListener() {
-    const searchInput = document.getElementById('search-input');
-    
-    // Usar versão debounced
+    // Use debounced version
     searchInput.addEventListener('input', (e) => {
         const query = e.target.value;
         debouncedSearch(query);
@@ -679,11 +547,25 @@ function setupSearchListener() {
     });
 }
 
-// Quando mudar filtro, limpar pesquisa
+// ===== DEBOUNCE FOR SEARCH =====
+
+function debounce(func, delay) {
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), delay);
+    };
+}
+
+// Create debounced version of search
+const debouncedSearch = debounce(searchProjects, 300);
+
+// Clear search when category filter is applied
 function filterProjects(category) {
     currentCategory = category;
     
-    // Limpar input de pesquisa
+    // Clear search input
+
     const searchInput = document.getElementById('search-input');
     searchInput.value = '';
     
@@ -698,3 +580,250 @@ function filterProjects(category) {
     renderProjects(filteredProjects);
     console.log(`Filtro aplicado: ${category} (${filteredProjects.length} projetos)`);
 }
+
+// Scroll to top functionality
+const btn = document.getElementById('scroll-top');
+
+// Show button when scroll > 300px
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+        btn.classList.add('show');
+    } else {
+        btn.classList.remove('show');
+    }
+});
+
+// Smooth scroll to top
+btn.addEventListener('click', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+
+// ===== CONSOLIDATED DOM CONTENT LOADED =====
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Clock
+    loadClockFormat();
+    initClock();
+    
+    // Visit Counter
+    initVisitCounter();
+    
+    // Projects
+    renderProjects(projects);
+    setupFilterListeners();
+    setupModalListeners();
+    setupSearchListener();
+    
+    // Contact Form
+    setupContactForm();
+
+    console.log('✅ Filters configured!');
+    console.log('✅ Modal configured!');
+    console.log('✅ Search configured!');
+    console.log('✅ All features initialized!');
+});
+
+// ===== CONTACT FORM =====
+
+// Form validation rules
+const formRules = {
+    name: {
+        minLength: 2,
+        maxLength: 50,
+        regex: /^[a-zA-Z\s'-]+$/,
+        message: 'Name must be 2-50 characters and contain only letters, spaces, hyphens, or apostrophes'
+    },
+    email: {
+        regex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        message: 'Please enter a valid email address'
+    },
+    subject: {
+        minLength: 3,
+        maxLength: 100,
+        message: 'Subject must be 3-100 characters'
+    },
+    message: {
+        minLength: 10,
+        maxLength: 1000,
+        message: 'Message must be 10-1000 characters'
+    }
+};
+
+function validateField(fieldName, value) {
+    const rules = formRules[fieldName];
+    if (!rules) return true;
+    if (rules.minLength && value.length < rules.minLength) return false;
+    if (rules.maxLength && value.length > rules.maxLength) return false;
+    if (rules.regex && !rules.regex.test(value)) return false;
+    return true;
+}
+
+function showError(fieldName, message) {
+    const errorElement = document.getElementById(`${fieldName}-error`);
+    if (errorElement) {
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+    }
+}
+
+function clearError(fieldName) {
+    const errorElement = document.getElementById(`${fieldName}-error`);
+    if (errorElement) {
+        errorElement.textContent = '';
+        errorElement.style.display = 'none';
+    }
+}
+
+function getAllMessages() {
+    const messages = localStorage.getItem('contactMessages');
+    return messages ? JSON.parse(messages) : [];
+}
+
+function saveMessage(messageData) {
+    const messages = getAllMessages();
+    messageData.id = Date.now();
+    messageData.timestamp = new Date().toISOString();
+    messages.push(messageData);
+    localStorage.setItem('contactMessages', JSON.stringify(messages));
+    return messageData;
+}
+
+function deleteMessage(messageId) {
+    let messages = getAllMessages();
+    messages = messages.filter(msg => msg.id !== messageId);
+    localStorage.setItem('contactMessages', JSON.stringify(messages));
+}
+
+function clearAllMessages() {
+    const confirmed = window.confirm('Are you sure you want to delete all messages? This cannot be undone.');
+    if (confirmed) {
+        localStorage.removeItem('contactMessages');
+        renderMessagesList();
+        console.log('All messages cleared.');
+    }
+}
+
+function renderMessagesList() {
+    const messagesList = document.getElementById('messages-list');
+    const clearBtn = document.getElementById('clear-messages');
+    const messages = getAllMessages();
+    
+    if (messages.length === 0) {
+        messagesList.innerHTML = '<p class="no-messages">No messages saved yet.</p>';
+        clearBtn.style.display = 'none';
+        return;
+    }
+    
+    clearBtn.style.display = 'block';
+    
+    messagesList.innerHTML = messages.map(msg => {
+        const date = new Date(msg.timestamp).toLocaleString();
+        return `
+            <div class="message-item">
+                <div class="message-header">
+                    <h4>${msg.name}</h4>
+                    <small>${date}</small>
+                </div>
+                <p class="message-subject"><strong>Subject:</strong> ${msg.subject}</p>
+                <p class="message-email"><strong>Email:</strong> <a href="mailto:${msg.email}">${msg.email}</a></p>
+                <p class="message-content">${msg.message}</p>
+                <button class="delete-message-btn" data-id="${msg.id}">🗑️ Delete</button>
+            </div>
+        `;
+    }).join('');
+    
+    document.querySelectorAll('.delete-message-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const messageId = parseInt(e.target.dataset.id);
+            deleteMessage(messageId);
+            renderMessagesList();
+            console.log('Message deleted.');
+        });
+    });
+}
+
+function setupContactForm() {
+    const form = document.getElementById('contact-form');
+    
+    if (!form) return;
+    
+    form.querySelectorAll('input, textarea').forEach(field => {
+        field.addEventListener('blur', () => {
+            const fieldName = field.name;
+            const value = field.value.trim();
+            
+            if (value === '') {
+                showError(fieldName, `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} is required`);
+            } else if (!validateField(fieldName, value)) {
+                showError(fieldName, formRules[fieldName].message);
+            } else {
+                clearError(fieldName);
+            }
+        });
+        
+        field.addEventListener('focus', () => {
+            clearError(field.name);
+        });
+    });
+    
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const formData = {
+            name: document.getElementById('name').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            subject: document.getElementById('subject').value.trim(),
+            message: document.getElementById('message').value.trim()
+        };
+        
+        let isValid = true;
+        
+        Object.keys(formData).forEach(fieldName => {
+            if (formData[fieldName] === '') {
+                showError(fieldName, `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} is required`);
+                isValid = false;
+            } else if (!validateField(fieldName, formData[fieldName])) {
+                showError(fieldName, formRules[fieldName].message);
+                isValid = false;
+            } else {
+                clearError(fieldName);
+            }
+        });
+        
+        if (isValid) {
+            saveMessage(formData);
+            
+            const formMessage = document.getElementById('form-message');
+            formMessage.textContent = '✅ Message saved successfully!';
+            formMessage.className = 'form-message success';
+            formMessage.style.display = 'block';
+            
+            form.reset();
+            renderMessagesList();
+            
+            setTimeout(() => {
+                formMessage.style.display = 'none';
+            }, 3000);
+            
+            console.log('Message saved:', formData);
+        } else {
+            const formMessage = document.getElementById('form-message');
+            formMessage.textContent = '❌ Please fix the errors above';
+            formMessage.className = 'form-message error';
+            formMessage.style.display = 'block';
+        }
+    });
+    
+    const clearBtn = document.getElementById('clear-messages');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', clearAllMessages);
+    }
+    
+    renderMessagesList();
+    console.log('✅ Contact form initialized!');
+}
+
+// ===== END CONTACT FORM =====

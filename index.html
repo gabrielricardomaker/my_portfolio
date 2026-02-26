@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gabriel Rodrigues - Portfolio</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="./images/favicon.ico" type="image/x-icon">
 </head>
 <body>
     <!-- Header -->
@@ -46,7 +47,7 @@
         </div>
     </section>
 
-    <!-- Projects -->
+    <!-- Legacy Code From Before the Project Section Revamp, Kept Here for Reference -->
     <!--<section id="projects" class="projects">
         <h2>Projects</h2>
         <div class="projects-grid">
@@ -63,58 +64,59 @@
         </div>
     </section> -->
 
-
+    <!-- Projects Section -->
     <section id="projects" class="projects">
-    <h2>My Projects</h2>
-    
-    <!-- Barra de controlo (filtros + pesquisa) -->
-    <div class="projects-controls">
-        <div class="filter-buttons">
-            <button class="filter-btn active" data-category="all">
-                Todos <span class="count">0</span>
-            </button>
-            <button class="filter-btn" data-category="web">
-                Web <span class="count">0</span>
-            </button>
-            <button class="filter-btn" data-category="mobile">
-                Mobile <span class="count">0</span>
-            </button>
-            <button class="filter-btn" data-category="design">
-                Design <span class="count">0</span>
-            </button>
-            <button class="filter-btn" data-category="app">
-                App <span class="count">0</span>
-            </button>
-            <button class="filter-btn" data-category="irl">
-                IRL <span class="count">0</span>
-            </button>
+        <h2>My Projects</h2>
+        
+        <!-- Control Bar (Filters + Search) -->
+        <div class="projects-controls">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-category="all">
+                    All <span class="count">0</span>
+                </button>
+                <button class="filter-btn" data-category="web">
+                    Web <span class="count">0</span>
+                </button>
+                <button class="filter-btn" data-category="mobile">
+                    Mobile <span class="count">0</span>
+                </button>
+                <button class="filter-btn" data-category="design">
+                    Design <span class="count">0</span>
+                </button>
+                <button class="filter-btn" data-category="app">
+                    App <span class="count">0</span>
+                </button>
+                <button class="filter-btn" data-category="irl">
+                    IRL <span class="count">0</span>
+                </button>
+            </div>
+            
+            <!-- Search Box -->
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Search projects...">
+            </div>
         </div>
         
-        <div class="search-box">
-            <input type="text" id="search-input" placeholder="Pesquisar projetos...">
+        <!-- Grid where projects will appear -->
+        <div id="projects-grid" class="projects-grid">
+            <!-- Cards will be inserted here via JavaScript -->
         </div>
-    </div>
-    
-    <!-- Grid onde os projetos vão aparecer -->
-    <div id="projects-grid" class="projects-grid">
-        <!-- Os cards serão inseridos aqui via JavaScript -->
-    </div>
-    
-    <!-- Mensagem quando não há resultados -->
-    <div id="no-results" class="no-results" style="display: none;">
-        <p>No projects found for the selected category or search term.</p>
-    </div>
-</section>
+        
+        <!-- Message when there are no results -->
+        <div id="no-results" class="no-results" style="display: none;">
+            <p>No projects found for the selected category or search term.</p>
+        </div>
+    </section>
 
-<!-- Modal (fora da secção) -->
-<div id="project-modal" class="modal">
-    <div class="modal-content">
-        <span class="modal-close">×</span>
-        <div id="modal-body">
-            <!-- Conteúdo do modal será inserido aqui -->
+    <!-- Modal (Outside the section) -->
+    <div id="project-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">×</span>
+            <div id="modal-body">
+                <!-- Modal content will be inserted here -->
+            </div>
         </div>
     </div>
-</div>
 
     <!-- Visit Counter -->
     <div class="visit-counter">
@@ -123,28 +125,71 @@
         <button id="reset-counter" class="reset-btn">🔄 Reset</button>
     </div>
 
-
-    <!-- Contact -->
+    <!-- Contact Section -->
     <section id="contact" class="contact">
-            <h2>Contact Me</h2>
-            <p>You can reach me via:</p>
-            <p><a href ="mailto:gabrielrodrigues_2023@proton.me">Email</a></p>
-            <p><a href="https://www.linkedin.com/in/gabriel-ricardo-rodrigues-36a7b83b2">LinkedIn</a></p>
-            <p><a href="https://github.com/gabrielricardomaker">GitHub</a></p>
+        <h2>Contact Me</h2>
+        <p>You can reach me via:</p>
+        <p><a class="link" href="mailto:gabrielrodrigues_2023@proton.me">Email</a></p>
+        <p><a class="link" href="https://www.linkedin.com/in/gabriel-ricardo-rodrigues-36a7b83b2">LinkedIn</a></p>
+        <p><a class="link" href="https://github.com/gabrielricardomaker">GitHub</a></p>
+        
+        <!-- Contact Form -->
+        <div class="contact-form-container">
+            <h3>Or send me a message:</h3>
+            <form id="contact-form" class="contact-form">
+                <div class="form-group">
+                    <label for="name">Name *</label>
+                    <input type="text" id="name" name="name" required placeholder="Your name">
+                    <span class="error-message" id="name-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                    <span class="error-message" id="email-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">Subject *</label>
+                    <input type="text" id="subject" name="subject" required placeholder="What is this about?">
+                    <span class="error-message" id="subject-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Message *</label>
+                    <textarea id="message" name="message" required placeholder="Your message here..." rows="5"></textarea>
+                    <span class="error-message" id="message-error"></span>
+                </div>
+                
+                <button type="submit" class="submit-btn">Send Message</button>
+                <span class="form-message" id="form-message"></span>
+            </form>
+            
+            <!-- Messages List -->
+            <div class="messages-list-container">
+                <h3>Saved Messages</h3>
+                <div id="messages-list" class="messages-list"></div>
+                <button id="clear-messages" class="clear-messages-btn" style="display: none;">Clear All Messages</button>
+            </div>
+        </div>
     </section>
 
     <!-- Footer -->
     <footer>
-    <p>© <span id="year"></span> Gabriel Rodrigues. Made with ❤️, ☕ and lack of 💤.</p>
-    <details style="font-size: 0.75rem; margin-top: 1rem; opacity: 0.6;">
-        <summary style="cursor: pointer;">Icon Credits</summary>
-        <p style="margin-top: 0.5rem;">
-            <a href="https://www.flaticon.com/free-icons/radiant">Sun icon by heisenberg_jr</a> • 
-            <a href="https://www.flaticon.com/free-icons/hobbies-and-free-time">Moon icon by ekays.dsgn</a>
-        </p>
-    </details>
-</footer>
+        <p>© <span id="year"></span> Gabriel Rodrigues. Made with ❤️, ☕ and lack of 💤.</p>
+        <details style="font-size: 0.75rem; margin-top: 1rem; opacity: 0.6;">
+            <summary style="cursor: pointer;">Icon Credits</summary>
+            <p style="margin-top: 0.5rem;">
+                <a href="https://www.flaticon.com/free-icons/radiant">Sun icon by heisenberg_jr</a> • 
+                <a href="https://www.flaticon.com/free-icons/hobbies-and-free-time">Moon icon by ekays.dsgn</a>
+            </p>
+        </details>
+    </footer>
 
+    <!-- Scroll to Top Button -->
+    <button id="scroll-top" class="scroll-top-btn" title="Scroll to top">
+        ↑
+    </button>
 
     <script src="script.js" defer></script>
 </body>
