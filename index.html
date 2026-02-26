@@ -178,25 +178,25 @@
 
 <section id="contact" class="contact">
     <div class="section-header">
-        <h2>📧 Entra em Contacto</h2>
-        <p>Tens alguma questão ou projeto em mente? Envia-me uma mensagem!</p>
+        <h2>📧 Get in Touch</h2>
+        <p>Have a question or project in mind? Send me a message!</p>
     </div>
 
     <div class="contact-container">
         <!-- Formulário -->
         <form id="contact-form" class="contact-form" novalidate>
             
-            <!-- Nome -->
+            <!-- Full Name -->
             <div class="form-group">
                 <label for="name">
-                    Nome Completo <span class="required">*</span>
+                    Full Name <span class="required">*</span>
                 </label>
                 <div class="input-wrapper">
                     <input 
                         type="text" 
                         id="name" 
                         name="name"
-                        placeholder="O teu nome"
+                        placeholder="Your name"
                         required
                         minlength="3"
                     >
@@ -215,7 +215,7 @@
                         type="email" 
                         id="email" 
                         name="email"
-                        placeholder="teu@email.com"
+                        placeholder="your@email.com"
                         required
                     >
                     <span class="input-icon"></span>
@@ -223,50 +223,50 @@
                 <span class="error-message"></span>
             </div>
 
-<!-- Adicionar campo telefone (opcional) -->
+<!-- Phone (optional) -->
 <div class="form-group">
-    <label for="phone">Telefone (opcional)</label>
+    <label for="phone">Phone (optional)</label>
     <div class="input-wrapper">
         <input 
             type="tel" 
             id="phone" 
             name="phone"
-            placeholder="+351 9xx xxx xxx"
+            placeholder="+351 91x xxx xxx"
         >
         <span class="input-icon"></span>
     </div>
     <span class="error-message"></span>
 </div>
 
-            <!-- Assunto -->
+            <!-- Subject -->
             <div class="form-group">
                 <label for="subject">
-                    Assunto <span class="required">*</span>
+                    Subject <span class="required">*</span>
                 </label>
                 <div class="input-wrapper">
                     <select id="subject" name="subject" required>
-                        <option value="">Seleciona um assunto</option>
-                        <option value="projeto">Proposta de Projeto</option>
-                        <option value="colaboracao">Colaboração</option>
-                        <option value="emprego">Oportunidade de Emprego</option>
-                        <option value="info">Pedido de Informação</option>
-                        <option value="outro">Outro</option>
+                        <option value="">Select a subject</option>
+                        <option value="projeto">Project Proposal</option>
+                        <option value="colaboracao">Collaboration</option>
+                        <option value="emprego">Job Opportunity</option>
+                        <option value="info">Information Request</option>
+                        <option value="outro">Other</option>
                     </select>
                     <span class="input-icon"></span>
                 </div>
                 <span class="error-message"></span>
             </div>
 
-            <!-- Mensagem -->
+            <!-- Message -->
             <div class="form-group">
                 <label for="message">
-                    Mensagem <span class="required">*</span>
+                    Message <span class="required">*</span>
                 </label>
                 <div class="input-wrapper">
                     <textarea 
                         id="message" 
                         name="message"
-                        placeholder="Escreve aqui a tua mensagem..."
+                        placeholder="Write your message here..."
                         required
                         minlength="10"
                         rows="6"
@@ -275,21 +275,21 @@
                 </div>
                 <span class="error-message"></span>
                 <div class="char-counter">
-                    <span id="char-count">0</span> / 500 caracteres
+                    <span id="char-count">0</span> / 500 characters
                 </div>
             </div>
 
-            <!-- Botão Submit -->
+            <!-- Submit Button -->
             <button type="submit" class="submit-btn" id="submit-btn">
-                <span class="btn-text">Enviar Mensagem</span>
+                <span class="btn-text">Send Message</span>
                 <span class="btn-icon">📨</span>
             </button>
 
         </form>
 
-        <!-- Info Adicional -->
+        <!-- Additional Contact Info -->
         <div class="contact-info">
-            <h3>Outras Formas de Contacto</h3>
+            <h3>Other Ways to Contact</h3>
             <div class="info-item">
                 <span class="icon">📧</span>
                 <span><a class="link" href="mailto:gabrielrodrigues_2023@proton.me">gabrielrodrigues_2023@proton.me</a></span>
@@ -301,7 +301,7 @@
             </div>
             <div class="info-item">
                 <span class="icon">📍</span>
-                <span>Lisboa, Portugal</span>
+                <span>Lisbon, Portugal</span>
             </div>
             
             <div class="social-links">
@@ -315,7 +315,7 @@
 
 <section id="admin-messages" class="admin-messages" style="display: none;">
     <div class="admin-header">
-        <h2>📨 Recieved Messages</h2>
+        <h2>📨 Received Messages</h2>
         <div class="admin-actions">
             <span class="message-count">
                 <strong id="total-messages">0</strong> messages
@@ -327,7 +327,7 @@
     </div>
     
     <div id="messages-list" class="messages-list">
-        <!-- Mensagens serão inseridas aqui -->
+        <!-- Messages will be inserted here -->
     </div>
     
     <div id="no-messages" class="no-messages">
@@ -335,36 +335,8 @@
     </div>
 </section>
 
-<!-- Botão flutuante para abrir admin -->
-<button id="toggle-admin" class="toggle-admin" title="View Admin Messages">
-    📨
-    <span class="badge" id="unread-badge" style="display: none;">0</span>
-</button><div id="toast-container" class="toast-container"></div>
-
-<section id="admin-messages" class="admin-messages" style="display: none;">
-    <div class="admin-header">
-        <h2>📨 Recieved Messages</h2>
-        <div class="admin-actions">
-            <span class="message-count">
-                <strong id="total-messages">0</strong> messages
-            </span>
-            <button id="clear-messages" class="btn-danger">
-                🗑️ Clear All
-            </button>
-        </div>
-    </div>
-    
-    <div id="messages-list" class="messages-list">
-        <!-- Mensagens serão inseridas aqui -->
-    </div>
-    
-    <div id="no-messages" class="no-messages">
-        <p>📭 No messages yet</p>
-    </div>
-</section>
-
-<!-- Botão flutuante para abrir admin -->
-<button id="toggle-admin" class="toggle-admin" title="View Admin Messages">
+<!-- Floating button to open admin -->
+<button id="toggle-admin" class="toggle-admin" title="View Messages">
     📨
     <span class="badge" id="unread-badge" style="display: none;">0</span>
 </button>

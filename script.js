@@ -578,7 +578,7 @@ function filterProjects(category) {
     }
     
     renderProjects(filteredProjects);
-    console.log(`Filtro aplicado: ${category} (${filteredProjects.length} projetos)`);
+    console.log(`Filter applied: ${category} (${filteredProjects.length} projects)`);
 }
 
 // Scroll to top functionality
@@ -601,26 +601,26 @@ btn.addEventListener('click', () => {
     });
 });
 
-// ===== VALIDAÇÃO DO FORMULÁRIO =====
+// ===== FORM VALIDATION =====
 
-// Regras de validação
+// Validation Rules
 const validationRules = {
     name: {
         required: true,
         minLength: 3,
         pattern: /^[a-zA-ZÀ-ÿ\s]+$/,
         errorMessages: {
-            required: 'Por favor, introduz o teu nome',
-            minLength: 'O nome deve ter pelo menos 3 caracteres',
-            pattern: 'O nome só pode conter letras'
+            required: 'Please enter your name',
+            minLength: 'Name must be at least 3 characters',
+            pattern: 'Name can only contain letters'
         }
     },
     email: {
         required: true,
         pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
         errorMessages: {
-            required: 'Por favor, introduz o teu email',
-            pattern: 'Por favor, introduz um email válido'
+            required: 'Please enter your email',
+            pattern: 'Please enter a valid email'
         }
     },
 
@@ -629,14 +629,14 @@ phone: {
     required: false,
     pattern: new RegExp('^(\\+351[\\s-]?)?9[0-9]{8}$'),
     errorMessages: {
-        pattern: 'Formato: +351 912345678 ou 912345678'
+        pattern: 'Format: +351 912345678 or 912345678'
     }
 },
 
     subject: {
         required: true,
         errorMessages: {
-            required: 'Por favor, seleciona um assunto'
+            required: 'Please select a subject'
         }
     },
     message: {
@@ -644,9 +644,9 @@ phone: {
         minLength: 10,
         maxLength: 500,
         errorMessages: {
-            required: 'Por favor, escreve uma mensagem',
-            minLength: 'A mensagem deve ter pelo menos 10 caracteres',
-            maxLength: 'A mensagem não pode ter mais de 500 caracteres'
+            required: 'Please write a message',
+            minLength: 'Message must be at least 10 characters',
+            maxLength: 'Message cannot exceed 500 characters'
         }
     }
 };
@@ -889,7 +889,7 @@ function displayMessages() {
     if (!messagesList) return;
     
     if (messages.length === 0) {
-        messagesList.innerHTML = '<div class="no-messages">Nenhuma mensagem ainda</div>';
+        messagesList.innerHTML = '<div class="no-messages">No messages yet</div>';
         return;
     }
     
@@ -904,30 +904,30 @@ function displayMessages() {
                     <small>${formattedDate}</small>
                 </div>
                 <p class="message-email"><strong>Email:</strong> ${msg.email}</p>
-                ${msg.phone ? `<p class="message-email"><strong>Telefone:</strong> ${msg.phone}</p>` : ''}
-                <p class="message-subject"><strong>Assunto:</strong> ${msg.subject}</p>
+                ${msg.phone ? `<p class="message-email"><strong>Phone:</strong> ${msg.phone}</p>` : ''}
+                <p class="message-subject"><strong>Subject:</strong> ${msg.subject}</p>
                 <div class="message-content">${msg.message}</div>
-                <button class="delete-message-btn" onclick="deleteMessage(${msg.id})">Eliminar</button>
+                <button class="delete-message-btn" onclick="deleteMessage(${msg.id})">🗑️ Delete</button>
             </div>
         `;
     }).join('');
 }
 
 function deleteMessage(id) {
-    if (confirm('Tem a certeza que deseja eliminar esta mensagem?')) {
+    if (confirm('Are you sure you want to delete this message?')) {
         let messages = loadMessagesFromStorage();
         messages = messages.filter(msg => msg.id !== id);
         localStorage.setItem('contactMessages', JSON.stringify(messages));
         displayMessages();
-        showToast('success', 'Eliminada!', 'Mensagem eliminada com sucesso');
+        showToast('success', 'Deleted!', 'Message deleted successfully');
     }
 }
 
 function clearAllMessages() {
-    if (confirm('Tem a certeza que deseja eliminar TODAS as mensagens?')) {
+    if (confirm('Are you sure you want to delete ALL messages? This action cannot be undone!')) {
         localStorage.removeItem('contactMessages');
         displayMessages();
-        showToast('success', 'Limpas!', 'Todas as mensagens foram eliminadas');
+        showToast('success', 'Cleared!', 'All messages have been deleted');
     }
 }
 
@@ -940,9 +940,9 @@ function setupFormSubmit() {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // Validar form final
+        // Validate form final
         if (!validateForm()) {
-            showToast('error', 'Erro!', 'Por favor, corrige os erros no formulário');
+            showToast('error', 'Error!', 'Please correct the errors in the form');
             return;
         }
         
@@ -972,36 +972,36 @@ function setupFormSubmit() {
             // Atualizar display de mensagens
             displayMessages();
             
-            // Atualizar painel admin
+            // Update admin panel
             loadMessages();
             
-            // Sucesso!
+            // Success!
             showToast(
                 'success',
-                'Mensagem Enviada!',
-                'Obrigado pelo contacto. Respondo em breve!'
+                'Message Sent!',
+                'Thank you for reaching out. I\'ll get back to you soon!'
             );
             
-            // Limpar formulário
+            // Clear form
             form.reset();
             
-            // Remover estados de validação
+            // Remove validation states
             document.querySelectorAll('.form-group').forEach(group => {
                 group.classList.remove('valid', 'invalid');
             });
             
-            // Resetar contador
+            // Reset counter
             document.getElementById('char-count').textContent = '0';
             
         } catch (error) {
             showToast(
                 'error',
-                'Erro ao Enviar',
-                'Ocorreu um erro. Tenta novamente.'
+                'Error Sending',
+                'An error occurred. Please try again.'
             );
             console.error('Form submission error:', error);
         } finally {
-            // Reativar botão e remover loading
+            // Reactivate button and remove loading
             submitBtn.disabled = false;
             submitBtn.classList.remove('loading');
         }
@@ -1049,32 +1049,32 @@ function loadMessages() {
                     <small>${date.toLocaleDateString('pt-PT')} ${date.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' })}</small>
                 </div>
                 <p class="message-email"><strong>Email:</strong> ${msg.email}</p>
-                ${msg.phone ? `<p class="message-email"><strong>Telefone:</strong> ${msg.phone}</p>` : ''}
-                <p class="message-subject"><strong>Assunto:</strong> ${msg.subject}</p>
+                ${msg.phone ? `<p class="message-email"><strong>Phone:</strong> ${msg.phone}</p>` : ''}
+                <p class="message-subject"><strong>Subject:</strong> ${msg.subject}</p>
                 <div class="message-content">${msg.message}</div>
-                <button class="delete-message-btn" onclick="deleteMessage(${msg.id})">🗑️ Eliminar</button>
+                <button class="delete-message-btn" onclick="deleteMessage(${msg.id})">🗑️ Delete</button>
             </div>
         `;
     }).join('');
 }
 
 function deleteMessage(id) {
-    if (!confirm('Eliminar esta mensagem?')) return;
+    if (!confirm('Delete this message?')) return;
     
     let messages = JSON.parse(localStorage.getItem('contactMessages')) || [];
     messages = messages.filter(m => m.id !== id);
     localStorage.setItem('contactMessages', JSON.stringify(messages));
     
     loadMessages();
-    showToast('success', 'Eliminada!', 'Mensagem removida com sucesso');
+    showToast('success', 'Deleted!', 'Message removed successfully');
 }
 
 function clearAllMessages() {
-    if (!confirm('Eliminar TODAS as mensagens? Esta ação é irreversível!')) return;
+    if (!confirm('Delete ALL messages? This action cannot be undone!')) return;
     
     localStorage.removeItem('contactMessages');
     loadMessages();
-    showToast('success', 'Limpo!', 'Todas as mensagens foram removidas');
+    showToast('success', 'Cleared!', 'All messages have been removed');
 }
 
 // Toggle admin view
@@ -1136,14 +1136,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     setupAdminToggle();
-    loadMessages(); // Carregar contador inicial
+    loadMessages(); // Load initial count
 
     console.log('✅ Filters configured!');
     console.log('✅ Modal configured!');
     console.log('✅ Search configured!');
-    console.log('✅ Validação configurada');
-    console.log('✅ Contador de caracteres ativo');
-    console.log('✅ Form submit configurado');
-    console.log('✅ Mensagens e toasts configurados!');
-    console.log('✅ Admin view configurada');
+    console.log('✅ Form validation configured!');
+    console.log('✅ Character counter active!');
+    console.log('✅ Form submit configured!');
+    console.log('✅ Messages and toasts configured!');
+    console.log('✅ Admin view configured!');
 });
