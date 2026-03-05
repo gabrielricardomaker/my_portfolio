@@ -25,6 +25,7 @@
             </div>
             <ul class="nav-menu" id="nav-menu">
                 <li><a href="#about">About Me</a></li>
+                <li><a href="#github-stats">GitHub Stats</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
@@ -45,7 +46,80 @@
         </div>
             <button id="format-toggle" class="format-toggle">12h/24h</button>
         </div>
+        <div class="weather-widget" id="weather-widget">
+    <div class="weather-loading">
+        <p>⏳ A carregar meteorologia...</p>
+    </div>
+    
+    <div class="weather-content" style="display: none;">
+        <div class="weather-icon" id="weather-icon">☀️</div>
+        <div class="weather-info">
+            <div class="weather-temp">
+                <span id="temp">--</span>°C
+            </div>
+            <div class="weather-desc" id="weather-desc">--</div>
+            <div class="weather-location" id="weather-location">--</div>
+        </div>
+    </div>
+    
+    <div class="weather-error" style="display: none;">
+        <p>❌ Erro ao carregar meteorologia</p>
+    </div>
+</div>  
     </section>
+
+
+    <!-- GitHub Stats Section -->
+
+
+<section id="github-stats" class="github-stats">
+    <div class="section-header">
+        <h2>GitHub Stats</h2>
+        <p>My Open Source Projects</p>
+    </div>
+
+    <!-- Stats Cards -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon">📦</div>
+        <div class="stat-value loading" id="repos-count"><div class="skeleton skeleton-value"></div></div>
+        <div class="stat-label">Repos</div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-icon">⭐</div>
+        <div class="stat-value loading" id="stars-count"><div class="skeleton skeleton-value"></div></div>
+        <div class="stat-label">Stars Total</div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-value loading" id="followers-count"><div class="skeleton skeleton-value"></div></div>
+        <div class="stat-label">Followers</div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-icon">🔀</div>
+        <div class="stat-value loading" id="following-count"><div class="skeleton skeleton-value"></div></div>
+        <div class="stat-label">Following</div>
+    </div>
+</div>
+
+    <!-- Repositórios Populares -->
+    <div class="repos-section">
+        <h3>📌 Repositórios Populares</h3>
+        <div id="repos-grid" class="repos-grid">
+            <!-- Repos serão inseridos aqui -->
+        </div>
+    </div>
+
+    <!-- Link para GitHub -->
+    <div class="github-link">
+        <a href="https://github.com/gabrielricardomaker" target="_blank" class="btn-github">
+            Ver Todos no GitHub →
+        </a>
+    </div>
+</section>
 
     <!-- Legacy Code From Before the Project Section Revamp, Kept Here for Reference -->
     <!--<section id="projects" class="projects">
@@ -311,6 +385,7 @@
         </div>
     </div>
 </section>
+
 <div id="toast-container" class="toast-container"></div>
 
 <section id="admin-messages" class="admin-messages" style="display: none;">
