@@ -638,7 +638,7 @@ phone: {
     }
 };
 
-// Validar campo individual
+// Regex validate individual field
 function validateField(fieldName, value) {
     const rules = validationRules[fieldName];
     
@@ -674,22 +674,22 @@ function validateField(fieldName, value) {
         };
     }
     
-    // Válido!
+    // Valid!
     return {
         valid: true,
         message: ''
     };
 }
 
-// Mostrar feedback visual
+// Show visual feedback
 function showFieldFeedback(fieldName, isValid, message = '') {
     const formGroup = document.getElementById(fieldName).closest('.form-group');
     const errorElement = formGroup.querySelector('.error-message');
     
-    // Remover estados anteriores
+    // Remove previous states
     formGroup.classList.remove('valid', 'invalid');
     
-    // Adicionar novo estado
+    // Add new state
     if (isValid) {
         formGroup.classList.add('valid');
         errorElement.textContent = '';
@@ -704,7 +704,7 @@ function setupFormValidation() {
     const form = document.getElementById('contact-form');
     const fields = ['name', 'email', 'phone', 'subject', 'message'];
     
-    // Validar cada campo ao perder foco (blur)
+    // Validate each field when it loses focus (blur)
     fields.forEach(fieldName => {
         const field = document.getElementById(fieldName);
         
@@ -714,9 +714,9 @@ function setupFormValidation() {
             updateSubmitButton();
         });
         
-        // Validar enquanto escreve (para limpar erros)
+        // Validate while typing (to clear errors)
         field.addEventListener('input', () => {
-            // Só valida se já tinha erro
+            // Only validate if there was a previous error
             const formGroup = field.closest('.form-group');
             if (formGroup.classList.contains('invalid')) {
                 const validation = validateField(fieldName, field.value);
@@ -727,7 +727,7 @@ function setupFormValidation() {
     });
 }
 
-// Validar form inteiro
+// Validate the entire form
 function validateForm() {
     const fields = ['name', 'email', 'subject', 'message'];
     let isFormValid = true;
@@ -746,7 +746,7 @@ function validateForm() {
     return isFormValid;
 }
 
-// Atualizar estado do botão submit
+// Update submit button state
 function updateSubmitButton() {
     const submitBtn = document.getElementById('submit-btn');
     const isValid = validateForm();
@@ -754,7 +754,7 @@ function updateSubmitButton() {
     submitBtn.disabled = !isValid;
 }
 
-// ===== CONTADOR DE CARACTERES =====
+// ===== CHARACTER COUNTER =====
 
 function setupCharCounter() {
     const messageField = document.getElementById('message');
@@ -766,15 +766,15 @@ function setupCharCounter() {
         const length = messageField.value.length;
         charCount.textContent = length;
         
-        // Remover classes anteriores
+        // Remove previous classes
         counter.classList.remove('warning', 'error');
         
-        // Adicionar warning quando >400 caracteres
+        // Add warning when >400 characters
         if (length > 400 && length <= maxLength) {
             counter.classList.add('warning');
         }
         
-        // Adicionar error quando >maxLength
+        // Add error when >maxLength
         if (length > maxLength) {
             counter.classList.add('error');
         }
@@ -798,7 +798,7 @@ function showToast(type, title, message, duration = 3000) {
     // Clear existing toasts
     clearAllToasts();
     
-    // Ícones por tipo
+    // Icons per type
     const icons = {
         success: '✅',
         error: '❌',
@@ -806,7 +806,7 @@ function showToast(type, title, message, duration = 3000) {
         info: 'ℹ️'
     };
     
-    // Criar toast
+    // Create toast element
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
     toast.innerHTML = `
@@ -818,7 +818,7 @@ function showToast(type, title, message, duration = 3000) {
         <button class="toast-close">×</button>
     `;
     
-    // Adicionar ao container
+    // Add to container
     container.appendChild(toast);
     
     // Close button
@@ -828,7 +828,7 @@ function showToast(type, title, message, duration = 3000) {
         setTimeout(() => toast.remove(), 200);
     });
     
-    // Auto-remove após duration
+    // Auto-remove after duration
     const timeoutId = setTimeout(() => {
         if (toast.parentElement) {
             toast.style.animation = 'fadeOut 0.2s ease forwards';
@@ -842,7 +842,7 @@ function showToast(type, title, message, duration = 3000) {
     console.log(`Toast ${type}: ${title}`);
 }
 
-// ===== MENSAGENS EM LOCALSTORAGE =====
+// ===== MESSAGES IN LOCALSTORAGE =====
 
 function saveMessageToStorage(formData) {
     // Get existing messages
@@ -918,7 +918,7 @@ function clearAllMessages() {
     }
 }
 
-// ===== PROCESSAR SUBMIT =====
+// ===== PROCESS SUBMIT =====
 
 function setupFormSubmit() {
     const form = document.getElementById('contact-form');
@@ -927,21 +927,21 @@ function setupFormSubmit() {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // Validate form final
+        // Last validation check before submission
         if (!validateForm()) {
             showToast('error', 'Error!', 'Please correct the errors in the form');
             return;
         }
         
-        // Desativar botão e mostrar loading
+        // Deactivate button and show loading state
         submitBtn.disabled = true;
         submitBtn.classList.add('loading');
         
         try {
-            // Simular delay de rede
+            // Simulate network delay
             await new Promise(resolve => setTimeout(resolve, 1500));
             
-            // Obter dados do formulário
+            // Gather form data
             const formData = {
                 name: document.getElementById('name').value,
                 email: document.getElementById('email').value,
@@ -950,13 +950,13 @@ function setupFormSubmit() {
                 message: document.getElementById('message').value
             };
             
-            // Salvar em localStorage
+            // Save to localStorage
             saveMessageToStorage(formData);
             
-            // Log da mensagem enviada
+            // Log the sent message
             console.log(`Message sent: ${formData.message}`);
             
-            // Atualizar display de mensagens
+            // Update message display
             displayMessages();
             
             // Update admin panel
@@ -1004,10 +1004,10 @@ function loadMessages() {
     const totalMessages = document.getElementById('total-messages');
     const unreadBadge = document.getElementById('unread-badge');
     
-    // Atualizar contador
+    // Update total messages count
     totalMessages.textContent = messages.length;
     
-    // Contar não lidas
+    // Count unread messages
     const unreadCount = messages.filter(m => !m.read).length;
     if (unreadCount > 0) {
         unreadBadge.textContent = unreadCount;
@@ -1016,7 +1016,7 @@ function loadMessages() {
         unreadBadge.style.display = 'none';
     }
     
-    // Mostrar/esconder mensagens
+    // Show/hide messages
     if (messages.length === 0) {
         messagesList.style.display = 'none';
         noMessages.style.display = 'block';
@@ -1026,7 +1026,7 @@ function loadMessages() {
     messagesList.style.display = 'flex';
     noMessages.style.display = 'none';
     
-    // Renderizar mensagens
+    // Render messages
     messagesList.innerHTML = messages.map(msg => {
         const date = new Date(msg.timestamp);
         return `
@@ -1076,13 +1076,13 @@ function setupAdminToggle() {
         
         if (isVisible) {
             loadMessages();
-            // Scroll para admin
+            // Scroll to admin section when opened
             adminSection.scrollIntoView({ behavior: 'smooth' });
         }
     });
 }
 
-// Limpar todas - melhorado para funcionar com o novo botão
+// clearAllBtn - updated to work with new button
 const clearAllBtn = document.getElementById('clear-messages');
 if (clearAllBtn) {
     clearAllBtn.addEventListener('click', clearAllMessages);
@@ -1090,22 +1090,22 @@ if (clearAllBtn) {
 
 // ===== GITHUB API INTEGRATION =====
 
-const GITHUB_USERNAME = 'gabrielricardomaker'; // ALTERAR PARA O TEU USERNAME!
+const GITHUB_USERNAME = 'gabrielricardomaker'; // Username goes here
 
 
-// Atualizar stats no DOM
+// Update Status in DOM
 function updateGitHubStats(userData) {
     document.getElementById('repos-count').textContent = userData.public_repos;
     document.getElementById('followers-count').textContent = userData.followers;
     document.getElementById('following-count').textContent = userData.following;
     
-    // Remover classe loading
+    // Remove loading class after updating
     document.querySelectorAll('.stat-value').forEach(el => {
         el.classList.remove('loading');
     });
 }
 
-// Buscar repositórios do utilizador
+// Get repositories from GitHub API
 async function fetchGitHubRepos() {
     try {
         const response = await fetch(
@@ -1125,7 +1125,7 @@ async function fetchGitHubRepos() {
     }
 }
 
-// Calcular total de stars
+// Calcularte total stars across all repos
 async function calculateTotalStars() {
     try {
         const repos = await fetchGitHubRepos();
@@ -1140,7 +1140,7 @@ async function calculateTotalStars() {
     }
 }
 
-// Renderizar repositórios
+// Render repos
 function renderRepos(repos) {
     const grid = document.getElementById('repos-grid');
     
@@ -1162,15 +1162,15 @@ function renderRepos(repos) {
     `).join('');
 }
 
-// Atualizar fetchGitHubUserData para usar cache
+// Update fetchGitHubUserData to use cache
 async function fetchGitHubUserData() {
     const cacheKey = `github_user_${GITHUB_USERNAME}`;
     
-    // Tentar obter do cache primeiro
+    // Try to get from cache first
     const cached = getCachedData(cacheKey);
     if (cached) return cached;
     
-    // Se não tem cache, buscar da API
+    // If not in cache, fetch from API
     try {
         const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}`);
         
@@ -1180,37 +1180,37 @@ async function fetchGitHubUserData() {
         
         const data = await response.json();
         
-        // Guardar no cache
+        // Cache the data for future use
         setCachedData(cacheKey, data);
         
         return data;
     } catch (error) {
-        console.error('❌ Erro ao buscar GitHub user:', error);
+        console.error('❌ Error Fetching GitHub User Data:', error);
         throw error;
     }
 }
 
-// ===== INICIALIZAR GITHUB STATS =====
+// ===== INIT GITHUB STATS =====
 
 async function initGitHubStats() {
-    console.log('🐙 Carregando GitHub stats...');
+    console.log('🐙 Loading GitHub stats...');
     
     try {
-        // Buscar dados em paralelo
+        // Fetch user data and repos in parallel
         const [userData, repos] = await Promise.all([
             fetchGitHubUserData(),
             calculateTotalStars()
         ]);
         
-        // Atualizar UI
+        // Update UI with user data and repos
         updateGitHubStats(userData);
         renderRepos(repos);
         
-        console.log('✅ GitHub stats carregados!');
+        console.log('✅ GitHub stats loaded!');
         
     } catch (error) {
-        console.error('❌ Erro ao carregar GitHub stats:', error.message);
-        // Mostrar erro na UI
+        console.error('❌ Error loading GitHub stats:', error.message);
+        // Show error on UI
         document.querySelectorAll('.stat-value').forEach(el => {
             el.textContent = '--';
             el.classList.remove('loading');
@@ -1218,9 +1218,9 @@ async function initGitHubStats() {
     }
 }
 
-// ===== CACHE SIMPLES =====
+// ===== CACHE =====
 
-const CACHE_DURATION = 10 * 60 * 1000; // 10 minutos
+const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
 
 function getCachedData(key) {
     const cached = localStorage.getItem(key);
@@ -1229,13 +1229,13 @@ function getCachedData(key) {
     const { data, timestamp } = JSON.parse(cached);
     const now = Date.now();
     
-    // Verificar se cache ainda é válido
+    // Check if cache is still valid
     if (now - timestamp < CACHE_DURATION) {
         console.log(`✅ Usando cache para ${key}`);
         return data;
     }
     
-    // Cache expirado
+    // Cache expired
     localStorage.removeItem(key);
     return null;
 }
@@ -1264,12 +1264,12 @@ async function fetchWithRetry(url, options = {}, maxRetries = 3) {
             return response;
             
         } catch (error) {
-            // Última tentativa - lançar erro
-            if (i === maxRetries - 1) {
+            // Last attempt, throw error
+                if (i === maxRetries - 1) {
                 throw error;
             }
             
-            // Esperar antes de retry (exponential backoff)
+            // Wait before retry (exponential backoff)
             const delay = Math.pow(2, i) * 1000;
             console.log(`Retry ${i + 1}/${maxRetries} após ${delay}ms...`);
             await new Promise(resolve => setTimeout(resolve, delay));
@@ -1277,15 +1277,12 @@ async function fetchWithRetry(url, options = {}, maxRetries = 3) {
     }
 }
 
-
-//weather API integration
-
 // ===== WEATHER WIDGET =====
 
 const OPENWEATHER_API_KEY = '34609a7d0b3b000f76c942f57fe0889b';
-const DEFAULT_CITY = 'Lisbon'; // Cidade padrão se geolocalização falhar
+const DEFAULT_CITY = 'Lisbon'; // Default city if geolocation fails
 
-// Mapeamento de códigos para emojis
+// Emoji mapping for weather conditions
 const weatherIcons = {
     '01d': '☀️',  // clear sky day
     '01n': '🌙',  // clear sky night
@@ -1307,7 +1304,7 @@ const weatherIcons = {
     '50n': '🌫️'
 };
 
-// Buscar meteorologia por cidade
+// Fetch weather data by city
 async function fetchWeatherByCity(city) {
     try {
         const response = await fetch(
@@ -1324,12 +1321,12 @@ async function fetchWeatherByCity(city) {
         return data;
         
     } catch (error) {
-        console.error('❌ Erro ao buscar meteorologia:', error);
+        console.error('❌ Error fetching weather data:', error);
         throw error;
     }
 }
 
-// Buscar meteorologia por coordenadas
+// Fetch weather data by coordinates
 async function fetchWeatherByCoords(lat, lon) {
     try {
         const response = await fetch(
@@ -1344,58 +1341,58 @@ async function fetchWeatherByCoords(lat, lon) {
         return data;
         
     } catch (error) {
-        console.error('❌ Erro ao buscar meteorologia:', error);
+        console.error('❌ Error fetching weather data by coordinates:', error);
         throw error;
     }
 }
 
 // ===== ERROR HANDLING AVANÇADO =====
 
-// Função para lidar com erros de API
+// Func to deal with different types of errors and show appropriate messages
 function handleAPIError(error, apiName) {
-    console.error(`❌ Erro na ${apiName} API:`, error);
+    console.error(`❌ Error in ${apiName} API:`, error);
     
-    // Diferentes tipos de erro
+    // Different types of errors
     if (error.message.includes('Failed to fetch')) {
-        showToast('error', 'Sem Conexão', `Verifica a tua ligação à internet`);
+        showToast('error', 'No Connection', `Check your Internet connection.`);
     } else if (error.message.includes('404')) {
-        showToast('error', 'Não Encontrado', `${apiName}: Recurso não encontrado`);
+        showToast('error', 'Not Found', `${apiName}: Resource not found`);
     } else if (error.message.includes('429')) {
-        showToast('error', 'Rate Limit', `${apiName}: Muitos pedidos. Tenta mais tarde.`);
+        showToast('error', 'Rate Limit', `${apiName}: Too many requests. Try again later.`);
     } else if (error.message.includes('403')) {
-        showToast('error', 'Acesso Negado', `${apiName}: Verifica API key`);
+        showToast('error', 'Access Denied', `${apiName}: Check your API key`);
     } else {
-        showToast('error', 'Erro', `${apiName}: ${error.message}`);
+        showToast('error', 'Error', `${apiName}: ${error.message}`);
     }
 }
 
 
-// Atualizar UI do widget
+// Update UI with weather data
 function updateWeatherWidget(data) {
     const widget = document.getElementById('weather-widget');
     const loading = widget.querySelector('.weather-loading');
     const content = widget.querySelector('.weather-content');
     const error = widget.querySelector('.weather-error');
     
-    // Esconder loading e error
+    // Hide loading and error, show content
     loading.style.display = 'none';
     error.style.display = 'none';
     
-    // Atualizar dados
+    // Update weather info
     document.getElementById('temp').textContent = Math.round(data.main.temp);
     document.getElementById('weather-desc').textContent = data.weather[0].description;
     document.getElementById('weather-location').textContent = data.name;
     
-    // Atualizar ícone
+    // Update icon
     const iconCode = data.weather[0].icon;
     const icon = weatherIcons[iconCode] || '🌈';
     document.getElementById('weather-icon').textContent = icon;
     
-    // Mostrar content
+    // Show content
     content.style.display = 'flex';
 }
 
-// Mostrar erro
+// Show error
 function showWeatherError() {
     const widget = document.getElementById('weather-widget');
     widget.querySelector('.weather-loading').style.display = 'none';
@@ -1403,22 +1400,22 @@ function showWeatherError() {
     widget.querySelector('.weather-error').style.display = 'block';
 }
 
-// ===== INICIALIZAR WEATHER WIDGET =====
+// ===== INIT WEATHER WIDGET =====
 
 async function initWeatherWidget() {
     console.log('🌤️ Carregando meteorologia...');
     
     try {
-        // Tentar obter localização do utilizador
+        // Try geolocation first
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
-                // Sucesso
+                // Success
                 async (position) => {
                     const { latitude, longitude } = position.coords;
                     const data = await fetchWeatherByCoords(latitude, longitude);
                     updateWeatherWidget(data);
                 },
-                // Erro ou negado
+                // Error or denied
                 async (error) => {
                     console.log('Geolocalização negada, usando cidade padrão');
                     const data = await fetchWeatherByCity(DEFAULT_CITY);
@@ -1426,21 +1423,16 @@ async function initWeatherWidget() {
                 }
             );
         } else {
-            // Browser não suporta geolocalização
+            // Browser doesn't support geolocation
             const data = await fetchWeatherByCity(DEFAULT_CITY);
             updateWeatherWidget(data);
         }
         
     } catch (error) {
-        console.error('❌ Erro ao carregar meteorologia');
+        console.error('❌ Error loading weather data');
         showWeatherError();
     }
 }
-
-
-
-
-
 // THIS NEEDS TO BE THE LAST THING IN THE FILE, OTHERWISE IT BREAKS EVERYTHING ELSE
 // ===== CONSOLIDATED DOM CONTENT LOADED =====
 
