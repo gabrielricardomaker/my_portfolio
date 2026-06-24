@@ -1,4 +1,4 @@
-console.log('Portfolio successfully loaded.');
+console.debug('Portfolio successfully loaded.');
 
 // Dark Mode Toggle
 const darkModeToggle = document.getElementById('darkmode-toggle');
@@ -82,11 +82,11 @@ function updateClock() {
 function initClock() {
     updateClock();
     clockInterval = setInterval(updateClock, 1000);
-    console.log('Clock initialized.');
+    console.debug('Clock initialized.');
 }
 
 // Stop Clock (Avoid memory leaks)
-function stopClock() { if (clockInterval) { clearInterval(clockInterval); console.log('Clock stopped.'); } }
+function stopClock() { if (clockInterval) { clearInterval(clockInterval); console.debug('Clock stopped.'); } }
 
 // Toggle between 12-hour and 24-hour formats on click
 function toggleFormat() {
@@ -95,7 +95,7 @@ function toggleFormat() {
     localStorage.setItem('clockFormat', is24Hour ? '24' : '12');
     updateClock();
     
-    console.log(`Format: ${is24Hour ? '24h' : '12h'}`);
+    console.debug(`Format: ${is24Hour ? '24h' : '12h'}`);
 }
 
 // Button event listener
@@ -146,7 +146,7 @@ function updateVisitDisplay() {
         countElement.textContent = count;
     }
     
-    console.log(`Visits: ${count}`);
+    console.debug(`Visits: ${count}`);
 }
 
 // Format last visit time
@@ -190,7 +190,7 @@ function initVisitCounter() {
     // Update last visit live every minute
     setInterval(updateLastVisitDisplay, 60000);
     
-    console.log('Visit counter initialized.');
+    console.debug('Visit counter initialized.');
 }
 
 // Reset visit counter
@@ -207,7 +207,7 @@ function resetVisitCounter() {
         updateVisitDisplay();
         updateLastVisitDisplay();
         
-        console.log('Visit counter reset.');
+        console.debug('Visit counter reset.');
         
         // Feedback to user
         alert('Successfully reset the visit counter');
@@ -380,7 +380,7 @@ function filterProjects(category) {
     // Re-render with filtered projects
     renderProjects(filteredProjects);
     
-    console.log(`Filter applied: ${category} (${filteredProjects.length} projects)`);
+    console.debug(`Filter applied: ${category} (${filteredProjects.length} projects)`);
 }
 
 // ===== EVENT LISTENERS FOR FILTERS =====
@@ -454,7 +454,7 @@ function openModal(projectId) {
     // Prevent body scroll
     document.body.style.overflow = 'hidden';
     
-    console.log(`Modal opened: ${project.title}`);
+    console.debug(`Modal opened: ${project.title}`);
 }
 
 function closeModal() {
@@ -464,7 +464,7 @@ function closeModal() {
     // Restore scroll
     document.body.style.overflow = 'auto';
     
-    console.log('Modal closed');
+    console.debug('Modal closed');
 }
 
 // ===== MODAL EVENT LISTENERS =====
@@ -532,7 +532,7 @@ function searchProjects(query) {
     // Render results
     renderProjects(results);
     
-    console.log(`Search: "${query}" - ${results.length} results`);
+    console.debug(`Search: "${query}" - ${results.length} results`);
 }
 
 // ===== EVENT LISTENER FOR SEARCH =====
@@ -839,7 +839,7 @@ function showToast(type, title, message, duration = 3000) {
     // Store timeout ID for cleanup
     toast.dataset.timeoutId = timeoutId;
     
-    console.log(`Toast ${type}: ${title}`);
+    console.debug(`Toast ${type}: ${title}`);
 }
 
 // ===== MESSAGES IN LOCALSTORAGE =====
@@ -954,7 +954,7 @@ function setupFormSubmit() {
             saveMessageToStorage(formData);
             
             // Log the sent message
-            console.log(`Message sent: ${formData.message}`);
+            console.debug(`Message sent: ${formData.message}`);
             
             // Update message display
             displayMessages();
@@ -1193,7 +1193,7 @@ async function fetchGitHubUserData() {
 // ===== INIT GITHUB STATS =====
 
 async function initGitHubStats() {
-    console.log('🐙 Loading GitHub stats...');
+    console.debug('🐙 Loading GitHub stats...');
     
     try {
         // Fetch user data and repos in parallel
@@ -1206,7 +1206,7 @@ async function initGitHubStats() {
         updateGitHubStats(userData);
         renderRepos(repos);
         
-        console.log('✅ GitHub stats loaded!');
+        console.debug('✅ GitHub stats loaded!');
         
     } catch (error) {
         console.error('❌ Error loading GitHub stats:', error.message);
@@ -1231,7 +1231,7 @@ function getCachedData(key) {
     
     // Check if cache is still valid
     if (now - timestamp < CACHE_DURATION) {
-        console.log(`✅ Usando cache para ${key}`);
+        console.debug(`✅ Usando cache para ${key}`);
         return data;
     }
     
@@ -1271,7 +1271,7 @@ async function fetchWithRetry(url, options = {}, maxRetries = 3) {
             
             // Wait before retry (exponential backoff)
             const delay = Math.pow(2, i) * 1000;
-            console.log(`Retry ${i + 1}/${maxRetries} após ${delay}ms...`);
+            console.debug(`Retry ${i + 1}/${maxRetries} após ${delay}ms...`);
             await new Promise(resolve => setTimeout(resolve, delay));
         }
     }
@@ -1316,7 +1316,7 @@ async function fetchWeatherByCity(city) {
         }
         
         const data = await response.json();
-        console.log('✅ Weather data:', data);
+        console.debug('✅ Weather data:', data);
         
         return data;
         
@@ -1403,7 +1403,7 @@ function showWeatherError() {
 // ===== INIT WEATHER WIDGET =====
 
 async function initWeatherWidget() {
-    console.log('🌤️ Carregando meteorologia...');
+    console.debug('🌤️ Carregando meteorologia...');
     
     try {
         // Try geolocation first
@@ -1417,7 +1417,7 @@ async function initWeatherWidget() {
                 },
                 // Error or denied
                 async (error) => {
-                    console.log('Geolocalização negada, usando cidade padrão');
+                    console.debug('Geolocalização negada, usando cidade padrão');
                     const data = await fetchWeatherByCity(DEFAULT_CITY);
                     updateWeatherWidget(data);
                 }
@@ -1467,13 +1467,13 @@ document.addEventListener('DOMContentLoaded', () => {
     initWeatherWidget()
     updateFooterYear();
 
-    console.log('✅ Filters configured!');
-    console.log('✅ Modal configured!');
-    console.log('✅ Search configured!');
-    console.log('✅ Form validation configured!');
-    console.log('✅ Character counter active!');
-    console.log('✅ Form submit configured!');
-    console.log('✅ Messages and toasts configured!');
-    console.log('✅ Admin view configured!');
-    console.log('✅ GitHub stats configured!');
+    console.debug('✅ Filters configured!');
+    console.debug('✅ Modal configured!');
+    console.debug('✅ Search configured!');
+    console.debug('✅ Form validation configured!');
+    console.debug('✅ Character counter active!');
+    console.debug('✅ Form submit configured!');
+    console.debug('✅ Messages and toasts configured!');
+    console.debug('✅ Admin view configured!');
+    console.debug('✅ GitHub stats configured!');
 });
